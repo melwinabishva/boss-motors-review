@@ -1,12 +1,13 @@
 import React, { useRef, useContext, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ShoppingCart, Plus, Minus, Sparkles, Zap } from "lucide-react";
 import { DataContext } from "../../context/DataContext";
-
+import PartModal from "../../pages/model/ProductModelVehicle";
 const NewArrival = () => {
     const scrollRef = useRef(null);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(true);
     const { parts, loading, cart, addToCart, updateQuantity, removeFromCart } = useContext(DataContext);
+    const [selectedPart, setSelectedPart] = useState(null);
 
     if (loading || parts.length <= 1) return null;
 
@@ -109,6 +110,7 @@ const NewArrival = () => {
                             return (
                                 <div
                                     key={`${type}-${partId}`}
+                                    onClick={() => setSelectedPart(part)}
                                     className="flex-none w-64 md:w-72 bg-white rounded-2xl shadow-sm 
                                      hover:shadow-2xl transition-all duration-500 border border-gray-100 
                                      hover:border-gray-200 group flex flex-col transform hover:-translate-y-1"
@@ -244,6 +246,18 @@ const NewArrival = () => {
                     ))}
                 </div>
             </div>
+            <PartModal
+                part={selectedPart}
+                isOpen={!!selectedPart}
+                onClose={() => setSelectedPart(null)}
+                cartItem={cart.find(
+                    (c) => c.id === selectedPart?.[0] && c.type === selectedPart?.[2]
+                )}
+                addToCart={addToCart}
+                updateQuantity={updateQuantity}
+                removeFromCart={removeFromCart}
+            />
+
         </section>
     );
 };

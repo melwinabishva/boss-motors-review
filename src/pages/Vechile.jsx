@@ -1,4 +1,4 @@
-// src/pages/Category.js
+
 import React, { useContext, useState, useMemo } from "react";
 import { DataContext } from "../context/DataContext";
 import { Search, Filter, Car, X, ChevronDown, ChevronUp } from "lucide-react";
@@ -8,7 +8,6 @@ const Vehicle = () => {
   const { vehicles, loading } = useContext(DataContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [makeFilter, setMakeFilter] = useState("");
-  const [yearFilter, setYearFilter] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
 
@@ -34,125 +33,109 @@ const Vehicle = () => {
 
   // Memoized filtered vehicles
   const filteredVehicles = useMemo(() => {
-    return vehicleList.filter(([id, make, model, year, variant]) => {
+    return vehicleList.filter(([id, make, model, , variant]) => {
       const query = searchTerm.toLowerCase();
       const matchesSearch =
         make.toLowerCase().includes(query) ||
         model.toLowerCase().includes(query) ||
-        variant.toLowerCase().includes(query) ||
-        year.toString().includes(query);
+        variant.toLowerCase().includes(query);
 
       const matchesMake = !makeFilter || make === makeFilter;
-      const matchesYear = !yearFilter || year.toString() === yearFilter;
 
-      return matchesSearch && matchesMake && matchesYear;
+      return matchesSearch && matchesMake;
     });
-  }, [searchTerm, makeFilter, yearFilter, vehicleList]);
+  }, [searchTerm, makeFilter, vehicleList]);
 
   const uniqueMakes = useMemo(() => [...new Set(vehicleList.map(([_, make]) => make))], [vehicleList]);
-  const uniqueYears = useMemo(() => [...new Set(vehicleList.map(([_, __, ___, year]) => year))].sort((a, b) => b - a), [vehicleList]);
 
-  const hasActiveFilters = searchTerm || makeFilter || yearFilter;
+  const hasActiveFilters = searchTerm || makeFilter;
 
   const clearFilters = () => {
     setSearchTerm("");
     setMakeFilter("");
-    setYearFilter("");
     setShowFilters(false);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3">
-          <div className="flex items-center justify-between gap-3">
-            {/* Title */}
-            <div className="flex-1 min-w-0">
-              <h1 className="text-lg font-bold text-gray-900 truncate">Vehicles</h1>
-              <p className="text-xs text-gray-500 mt-0.5">
-                {filteredVehicles.length} {filteredVehicles.length === 1 ? 'vehicle' : 'vehicles'} available
-              </p>
+      <div className="bg-white border-b border-gray-200 sticky top-[64px] z-40">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3">      <div className="flex items-center justify-between gap-3">
+          {/* Title */}
+          <div className="flex-1 min-w-0">
+            <h1 className="text-lg font-bold text-gray-900 truncate">Vehicles</h1>
+            <p className="text-xs text-gray-500 mt-0.5">
+              {filteredVehicles.length} {filteredVehicles.length === 1 ? 'vehicle' : 'vehicles'} available
+            </p>
+          </div>
+
+          {/* Search & Filter */}
+          <div className="flex items-center gap-2">
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-32 xs:w-40 border border-gray-300 rounded-lg pl-8 pr-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 p-0.5"
+                >
+                  <X size={12} />
+                </button>
+              )}
             </div>
 
-            {/* Search & Filter */}
-            <div className="flex items-center gap-2">
-              {/* Search */}
-              <div className="relative">
-                <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-32 xs:w-40 border border-gray-300 rounded-lg pl-8 pr-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                />
-                {searchTerm && (
-                  <button
-                    onClick={() => setSearchTerm("")}
-                    className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 p-0.5"
-                  >
-                    <X size={12} />
-                  </button>
-                )}
-              </div>
+            {/* Filter Button */}
+            <div className="relative">
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-1 px-2 py-1.5 border rounded-lg text-sm transition-colors ${hasActiveFilters
+                  ? "bg-blue-50 border-blue-200 text-blue-700"
+                  : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+                  }`}
+              >
+                <Filter size={14} />
+                <span className="hidden xs:inline">Filter</span>
+                {hasActiveFilters && <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>}
+                {showFilters ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+              </button>
 
-              {/* Filter Button */}
-              <div className="relative">
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className={`flex items-center gap-1 px-2 py-1.5 border rounded-lg text-sm transition-colors ${hasActiveFilters
-                    ? "bg-blue-50 border-blue-200 text-blue-700"
-                    : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
-                    }`}
-                >
-                  <Filter size={14} />
-                  <span className="hidden xs:inline">Filter</span>
-                  {hasActiveFilters && <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>}
-                  {showFilters ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                </button>
-
-                {/* Filter Dropdown */}
-                {showFilters && (
-                  <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[160px]">
-                    <div className="p-2 space-y-3">
-                      <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1">Make</label>
-                        <select
-                          value={makeFilter}
-                          onChange={(e) => setMakeFilter(e.target.value)}
-                          className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                          <option value="">All Makes</option>
-                          {uniqueMakes.map(make => <option key={make} value={make}>{make}</option>)}
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1">Year</label>
-                        <select
-                          value={yearFilter}
-                          onChange={(e) => setYearFilter(e.target.value)}
-                          className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                          <option value="">All Years</option>
-                          {uniqueYears.map(year => <option key={year} value={year}>{year}</option>)}
-                        </select>
-                      </div>
-
-                      {hasActiveFilters && (
-                        <button
-                          onClick={clearFilters}
-                          className="w-full text-center text-xs text-blue-600 hover:text-blue-700 pt-2 border-t"
-                        >
-                          Clear all filters
-                        </button>
-                      )}
+              {/* Filter Dropdown */}
+              {showFilters && (
+                <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[160px]">
+                  <div className="p-2 space-y-3">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Make</label>
+                      <select
+                        value={makeFilter}
+                        onChange={(e) => setMakeFilter(e.target.value)}
+                        className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                      >
+                        <option value="">All Makes</option>
+                        {uniqueMakes.map(make => <option key={make} value={make}>{make}</option>)}
+                      </select>
                     </div>
+
+                    {hasActiveFilters && (
+                      <button
+                        onClick={clearFilters}
+                        className="w-full text-center text-xs text-blue-600 hover:text-blue-700 pt-2 border-t"
+                      >
+                        Clear all filters
+                      </button>
+                    )}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
+        </div>
 
           {/* Active Filter Pills */}
           {hasActiveFilters && (
@@ -173,14 +156,6 @@ const Vehicle = () => {
                   </button>
                 </span>
               )}
-              {yearFilter && (
-                <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">
-                  Year: {yearFilter}
-                  <button onClick={() => setYearFilter("")} className="hover:text-blue-900">
-                    <X size={10} />
-                  </button>
-                </span>
-              )}
             </div>
           )}
         </div>
@@ -191,7 +166,7 @@ const Vehicle = () => {
         {filteredVehicles.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
             {filteredVehicles.map(vehicle => {
-              const [id, make, model, year, variant, imageURL] = vehicle;
+              const [id, make, model, , variant, imageURL] = vehicle;
               return (
                 <div
                   key={id}
@@ -204,11 +179,6 @@ const Vehicle = () => {
                       alt={`${make} ${model}`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute top-2 left-2">
-                      <span className="bg-black/70 text-white px-1.5 py-0.5 rounded text-xs font-medium">
-                        {year}
-                      </span>
-                    </div>
                   </div>
                   <div className="p-2">
                     <h2 className="font-semibold text-sm text-gray-900 truncate mb-0.5">{make} {model}</h2>

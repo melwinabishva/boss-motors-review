@@ -11,7 +11,8 @@ const Header = () => {
     const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
 
     return (
-        <header className="bg-white shadow-md sticky top-0 z-50">
+        
+        <header id="main-header" className="bg-white shadow-md sticky top-0 z-50">
             {/* --- Mobile Header --- */}
             <div className="flex items-center justify-between px-4 py-3 md:hidden">
                 <Link to="/">

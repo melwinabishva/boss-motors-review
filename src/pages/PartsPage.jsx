@@ -14,6 +14,7 @@ import {
     ChevronDown,
     ChevronUp
 } from "lucide-react";
+import PartModal from "./model/ProductModelVehicle";
 
 const priceRanges = [
     { label: "All", min: 0, max: Infinity },
@@ -33,6 +34,7 @@ const PartsPage = () => {
         removeFromCart,
         cart,
         updateQuantity,
+
     } = useContext(DataContext);
     const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ const PartsPage = () => {
     const [scrollY, setScrollY] = useState(0);
     const [showFilters, setShowFilters] = useState(false);
     const [addedToCartId, setAddedToCartId] = useState(null);
+    const [selectedPart, setSelectedPart] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -94,8 +97,9 @@ const PartsPage = () => {
     return (
         <div className="bg-gray-50 min-h-screen">
             {/* Compact Sticky Header */}
-            <div className={`bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50 transition-all duration-300 ${scrollY > 50 ? "py-2" : "py-3"}`}>
-                <div className="max-w-7xl mx-auto px-3 sm:px-4">
+            <div
+                className="bg-white border-b border-gray-200 sticky top-[64px] z-50 shadow-sm pb-2"
+            >                <div className="max-w-7xl mx-auto px-3 sm:px-4">
                     <div className="flex items-center justify-between gap-3">
                         {/* Left: Back + Vehicle Info */}
                         <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -232,7 +236,7 @@ const PartsPage = () => {
                         </h1>
                         {vehicle && (
                             <p className="text-xs text-gray-600 mt-0.5">
-                                {vehicle[1]} {vehicle[2]} • {vehicle[3]} • {vehicle[4]}
+                                {vehicle[1]} {vehicle[2]}  • {vehicle[4]}
                             </p>
                         )}
                     </div>
@@ -269,6 +273,7 @@ const PartsPage = () => {
                             return (
                                 <div
                                     key={`${typeFromSheet}-${partId}`}
+                                    onClick={() => setSelectedPart(part)}
                                     className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden group"
                                 >
                                     {/* Image Container */}
@@ -357,6 +362,17 @@ const PartsPage = () => {
                 )}
             </div>
 
+            <PartModal
+                part={selectedPart}
+                isOpen={!!selectedPart}
+                onClose={() => setSelectedPart(null)}
+                cartItem={cart.find(
+                    (c) => c.id === selectedPart?.[0] && c.type === selectedPart?.[2] // use correct type index
+                )}
+                addToCart={handleAddToCart}
+                updateQuantity={updateQuantity}
+                removeFromCart={removeFromCart}
+            />
 
         </div>
     );
