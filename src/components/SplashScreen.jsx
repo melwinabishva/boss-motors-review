@@ -103,7 +103,7 @@ const BossMotorSplash = () => {
                     variants={pulseVariants}
                     animate="pulse"
                 >
-                    MOTOR
+                    MOTORS
                 </motion.h2>
             </motion.div>
 

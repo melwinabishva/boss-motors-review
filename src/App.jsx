@@ -19,6 +19,7 @@ import Contact from "./pages/Contact";
 import UniversalParts from "./pages/UniversalParts";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // ✅ required import
+import NotFound from "./pages/NotFound";
 
 
 const Layout = ({ children }) => {
@@ -36,7 +37,7 @@ const Layout = ({ children }) => {
         <Header />
 
       </div>
-      <main className="flex-grow pb-20">{children}</main>
+      <main className="flex-grow pb-20 sm:pb-0">{children}</main>
 
 
       <Footer />
@@ -56,6 +57,7 @@ function App() {
           <Route path="/parts" element={<UniversalParts />} />
           <Route path="/parts/:vehicleId/:type" element={<PartsPage />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
 
