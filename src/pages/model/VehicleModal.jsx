@@ -45,12 +45,12 @@ const VehicleModal = ({ vehicle, onClose }) => {
                     </button>
 
                     {/* Vehicle Badge */}
-                    <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg">
+                    {/* <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg">
                         <div className="flex items-center gap-1 text-xs font-semibold text-gray-800">
                             <Car size={14} />
                             <span>{year}</span>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Content Section */}
@@ -65,10 +65,10 @@ const VehicleModal = ({ vehicle, onClose }) => {
                                 <Tag size={16} />
                                 <span className="font-medium">{variant}</span>
                             </div>
-                            <div className="flex items-center gap-1">
+                            {/* <div className="flex items-center gap-1">
                                 <Calendar size={16} />
                                 <span>{year}</span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 

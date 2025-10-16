@@ -11,12 +11,12 @@ const Header = () => {
     const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
 
     return (
-        
+
         <header id="main-header" className="bg-white shadow-md sticky top-0 z-50">
             {/* --- Mobile Header --- */}
             <div className="flex items-center justify-between px-4 py-3 md:hidden">
-                <Link to="/">
-                    <img src={logo} alt="Boss Motor" className="h-10 object-contain" />
+                <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                    BOSS MOTORS
                 </Link>
                 <Link
                     to="/contact"
@@ -28,8 +28,11 @@ const Header = () => {
 
             {/* --- Desktop Header --- */}
             <div className="hidden md:flex items-center justify-between max-w-7xl mx-auto px-6 py-4">
-                <Link to="/">
-                    <img src={logo} alt="Boss Motor" className="h-12 object-contain" />
+                <Link
+                    to="/"
+                    className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent tracking-wide hover:from-blue-700 hover:to-blue-900 transition-all duration-300 transform hover:scale-105"
+                >
+                    BOSS MOTORS
                 </Link>
 
                 <nav className="flex items-center gap-8 text-gray-700 font-medium relative">
@@ -66,6 +69,7 @@ const Header = () => {
                 </nav>
             </div>
         </header>
+
     );
 };
 

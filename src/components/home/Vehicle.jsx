@@ -126,13 +126,13 @@ const VehicleScroll = () => {
                                     </div>
 
                                     {/* Year Badge */}
-                                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm 
+                                    {/* <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm 
                                                  rounded-full px-3 py-1.5 shadow-lg">
                                         <div className="flex items-center gap-1 text-xs font-semibold text-gray-800">
                                             <Calendar size={12} />
                                             {year}
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     {/* Hover Overlay */}
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 
@@ -160,11 +160,6 @@ const VehicleScroll = () => {
                                     {/* Specifications */}
                                     <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                                         <div className="text-center">
-                                            <div className="text-2xl font-bold text-blue-600">{year}</div>
-                                            <div className="text-xs text-gray-500 mt-1">Model Year</div>
-                                        </div>
-                                        <div className="h-8 w-px bg-gray-200"></div>
-                                        <div className="text-center">
                                             <div className="text-sm font-semibold text-gray-900">10+</div>
                                             <div className="text-xs text-gray-500">Part Types</div>
                                         </div>
@@ -174,6 +169,7 @@ const VehicleScroll = () => {
                                             <div className="text-xs text-gray-500">Parts Available</div>
                                         </div>
                                     </div>
+
 
                                     {/* Quick Action */}
                                     <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 
