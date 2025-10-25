@@ -114,7 +114,6 @@ const Cart = () => {
 
     return (
         <div className="max-w-6xl mx-auto p-4 md:p-6 min-h-screen">
-            {/* Header */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Shopping Cart</h1>
@@ -131,7 +130,6 @@ const Cart = () => {
                 </button>
             </div>
 
-            {/* Cart Items */}
             <div className="grid gap-4 mb-8">
                 {cart.map((item, index) => (
                     <div
@@ -157,7 +155,6 @@ const Cart = () => {
                         </div>
 
                         <div className="flex items-center justify-between lg:justify-end gap-6 mt-4 lg:mt-0">
-                            {/* Quantity Controls */}
                             <div className="flex items-center border border-gray-200 rounded-xl bg-white">
                                 <button
                                     onClick={() => handleQuantityChange(item.id, item.type, item.qty - 1)}
@@ -177,14 +174,12 @@ const Cart = () => {
                                 </button>
                             </div>
 
-                            {/* Item Total */}
                             <div className="text-right min-w-24">
                                 <p className="text-lg font-bold text-gray-900">
                                     ₹{(item.price * item.qty).toLocaleString()}
                                 </p>
                             </div>
 
-                            {/* Remove Button */}
                             <button
                                 onClick={() => removeFromCart(item.id, item.type)}
                                 className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
@@ -197,7 +192,6 @@ const Cart = () => {
                 ))}
             </div>
 
-            {/* Summary Section */}
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
                 <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
                     <div className="text-center lg:text-left">
@@ -225,11 +219,9 @@ const Cart = () => {
                 </div>
             </div>
 
-            {/* Customer Details Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
                     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md relative animate-in fade-in-90 zoom-in-90">
-                        {/* Header */}
                         <div className="flex items-center justify-between p-6 border-b border-gray-100">
                             <h2 className="text-xl font-bold text-gray-900">Delivery Information</h2>
                             <button
@@ -240,7 +232,6 @@ const Cart = () => {
                             </button>
                         </div>
 
-                        {/* Form */}
                         <div className="p-6 space-y-4">
                             <div className="space-y-3">
                                 <div className="relative">
@@ -307,7 +298,6 @@ const Cart = () => {
                             </button>
                         </div>
 
-                        {/* Footer Note */}
                         <div className="px-6 pb-6">
                             <p className="text-xs text-gray-500 text-center">
                                 You'll be redirected to WhatsApp to confirm your order

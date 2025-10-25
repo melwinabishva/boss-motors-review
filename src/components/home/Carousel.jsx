@@ -20,20 +20,20 @@ const Carousel = () => {
     const [index, setIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
 
-    // Enhanced auto-slide with animation control
+
     useEffect(() => {
         const timer = setInterval(() => {
             setIsTransitioning(true);
             setTimeout(() => {
                 setIndex((prev) => (prev + 1) % images.length);
                 setIsTransitioning(false);
-            }, 500); // Match this with CSS transition duration
+            }, 500); 
         }, 3000);
 
         return () => clearInterval(timer);
     }, []);
 
-    // Enhanced manual navigation with animation
+
     const navigateToSlide = (newIndex) => {
         if (isTransitioning) return;
 
@@ -54,7 +54,7 @@ const Carousel = () => {
         navigateToSlide(newIndex);
     };
 
-    // Slide indicator animation
+
     const getIndicatorAnimation = (i) => {
         if (i === index) {
             return "bg-white scale-125";
@@ -63,11 +63,11 @@ const Carousel = () => {
     };
 
     return (
-        // Carousel
+        
         <section className="relative w-full max-w-6xl mx-auto mt-0 overflow-hidden rounded-2xl shadow-lg group">
-            {/* Carousel Container */}
+            
             <div className="relative overflow-hidden">
-                {/* Images with enhanced transitions */}
+       
                 <div className="relative h-[180px] md:h-[300px]">
                     {images.map((image, i) => (
                         <div
@@ -85,7 +85,7 @@ const Carousel = () => {
                                 className="w-full h-full object-cover"
                             />
 
-                            {/* Enhanced overlay with fade-in animation */}
+                           
                             <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                                 <h3 className={`text-white text-lg md:text-2xl font-semibold drop-shadow-lg transition-all duration-700 ${i === index
                                     ? "opacity-100 translate-y-0"
@@ -98,7 +98,7 @@ const Carousel = () => {
                     ))}
                 </div>
 
-                {/* Enhanced Navigation Buttons */}
+          
                 <button
                     onClick={prevSlide}
                     disabled={isTransitioning}
@@ -116,7 +116,6 @@ const Carousel = () => {
                 </button>
             </div>
 
-            {/* Enhanced Indicator Dots */}
             <div className="absolute bottom-4 w-full flex justify-center gap-2">
                 {images.map((_, i) => (
                     <button
@@ -129,7 +128,7 @@ const Carousel = () => {
                 ))}
             </div>
 
-            {/* Progress Bar for Auto-slide */}
+    
             <div className="absolute bottom-0 left-0 w-full h-1 bg-black/20">
                 <div
                     className="h-full bg-white/80 transition-all duration-3000 ease-linear"
@@ -137,7 +136,7 @@ const Carousel = () => {
                         width: isTransitioning ? '100%' : '0%',
                         transition: isTransitioning ? 'width 3s linear' : 'none'
                     }}
-                    key={index} // Force re-render on slide change
+                    key={index}
                 />
             </div>
         </section>

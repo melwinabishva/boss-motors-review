@@ -58,10 +58,8 @@ const Vehicle = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white border-b border-gray-200 sticky top-[64px] z-40">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3">      <div className="flex items-center justify-between gap-3">
-          {/* Title */}
           <div className="flex-1 min-w-0">
             <h1 className="text-lg font-bold text-gray-900 truncate">Vehicles</h1>
             <p className="text-xs text-gray-500 mt-0.5">
@@ -69,9 +67,7 @@ const Vehicle = () => {
             </p>
           </div>
 
-          {/* Search & Filter */}
           <div className="flex items-center gap-2">
-            {/* Search */}
             <div className="relative">
               <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
               <input
@@ -91,7 +87,6 @@ const Vehicle = () => {
               )}
             </div>
 
-            {/* Filter Button */}
             <div className="relative">
               <button
                 onClick={() => setShowFilters(!showFilters)}
@@ -106,7 +101,6 @@ const Vehicle = () => {
                 {showFilters ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
               </button>
 
-              {/* Filter Dropdown */}
               {showFilters && (
                 <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[160px]">
                   <div className="p-2 space-y-3">
@@ -137,7 +131,6 @@ const Vehicle = () => {
           </div>
         </div>
 
-          {/* Active Filter Pills */}
           {hasActiveFilters && (
             <div className="flex items-center gap-2 mt-2 flex-wrap">
               {searchTerm && (
@@ -161,7 +154,6 @@ const Vehicle = () => {
         </div>
       </div>
 
-      {/* Vehicle Cards */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         {filteredVehicles.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">

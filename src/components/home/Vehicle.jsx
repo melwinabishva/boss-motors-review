@@ -48,7 +48,6 @@ const VehicleScroll = () => {
 
     return (
         <section className="py-12 px-4 md:px-8 relative max-w-7xl mx-auto">
-            {/* Enhanced Header */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 px-2">
                 <div className="flex items-center gap-3 mb-4 sm:mb-0">
                     <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-xl">
@@ -71,9 +70,7 @@ const VehicleScroll = () => {
                 </button>
             </div>
 
-            {/* Scroll Container */}
             <div className="relative group">
-                {/* Left Arrow */}
                 {showLeftArrow && (
                     <button
                         onClick={() => scroll("left")}
@@ -88,7 +85,6 @@ const VehicleScroll = () => {
                     </button>
                 )}
 
-                {/* Vehicles Grid */}
                 <div className="mx-2 md:mx-4">
                     <div
                         ref={scrollRef}
@@ -106,7 +102,6 @@ const VehicleScroll = () => {
                                          hover:border-gray-200 group cursor-pointer transform hover:-translate-y-1"
                                 style={{ animationDelay: `${index * 0.1}s` }}
                             >
-                                {/* Vehicle Image */}
                                 <div className="relative overflow-hidden rounded-t-2xl bg-gray-100">
                                     <img
                                         src={imageURL || "/api/placeholder/400/300"}
@@ -115,7 +110,6 @@ const VehicleScroll = () => {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                                    {/* NEW Badge */}
                                     <div className="absolute top-4 left-4">
                                         <span className="bg-gradient-to-r from-green-600 to-emerald-600 text-white 
                                                         px-3 py-1.5 rounded-full text-xs font-bold shadow-lg 
@@ -125,7 +119,6 @@ const VehicleScroll = () => {
                                         </span>
                                     </div>
 
-                                    {/* Year Badge */}
                                     {/* <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm 
                                                  rounded-full px-3 py-1.5 shadow-lg">
                                         <div className="flex items-center gap-1 text-xs font-semibold text-gray-800">
@@ -134,7 +127,6 @@ const VehicleScroll = () => {
                                         </div>
                                     </div> */}
 
-                                    {/* Hover Overlay */}
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 
                                                  transition-opacity duration-300 rounded-t-2xl flex items-center justify-center">
                                         <div className="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
@@ -145,7 +137,6 @@ const VehicleScroll = () => {
                                     </div>
                                 </div>
 
-                                {/* Vehicle Info */}
                                 <div className="p-5 space-y-3">
                                     <div>
                                         <h3 className="font-bold text-gray-900 text-xl mb-1 line-clamp-1">
@@ -157,7 +148,6 @@ const VehicleScroll = () => {
                                         </div>
                                     </div>
 
-                                    {/* Specifications */}
                                     <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                                         <div className="text-center">
                                             <div className="text-sm font-semibold text-gray-900">10+</div>
@@ -171,7 +161,6 @@ const VehicleScroll = () => {
                                     </div>
 
 
-                                    {/* Quick Action */}
                                     <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 
                                                     py-2.5 rounded-xl font-medium transition-all duration-200 
                                                     group-hover:bg-blue-50 group-hover:text-blue-600 
@@ -185,7 +174,6 @@ const VehicleScroll = () => {
                     </div>
                 </div>
 
-                {/* Right Arrow */}
                 {showRightArrow && (
                     <button
                         onClick={() => scroll("right")}
@@ -201,7 +189,6 @@ const VehicleScroll = () => {
                 )}
             </div>
 
-            {/* Scroll Progress Indicator */}
             <div className="flex justify-center mt-6 space-x-1">
                 {[1, 2, 3].map((dot) => (
                     <div
@@ -211,7 +198,6 @@ const VehicleScroll = () => {
                 ))}
             </div>
 
-            {/* Vehicle Modal */}
             <VehicleModal vehicle={selectedVehicle} onClose={() => setSelectedVehicle(null)} />
         </section>
     );

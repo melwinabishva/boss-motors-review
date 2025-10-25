@@ -96,12 +96,10 @@ const PartsPage = () => {
 
     return (
         <div className="bg-gray-50 min-h-screen">
-            {/* Compact Sticky Header */}
             <div
                 className="bg-white border-b border-gray-200 sticky top-[64px] z-50 shadow-sm pb-2"
             >                <div className="max-w-7xl mx-auto px-3 sm:px-4">
                     <div className="flex items-center justify-between gap-3">
-                        {/* Left: Back + Vehicle Info */}
                         <div className="flex items-center gap-2 min-w-0 flex-1">
                             <button
                                 onClick={() => navigate(-1)}
@@ -120,7 +118,6 @@ const PartsPage = () => {
                             )}
                         </div>
 
-                        {/* Center: Compact Search */}
                         <div className="flex items-center gap-2 flex-1 max-w-md">
                             <div className="relative flex-1">
                                 <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
@@ -142,7 +139,6 @@ const PartsPage = () => {
                             </div>
                         </div>
 
-                        {/* Right: Compact Filter */}
                         <div className="flex items-center gap-1 shrink-0">
                             <div className="relative">
                                 <button
@@ -160,7 +156,6 @@ const PartsPage = () => {
                                     {showFilters ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                                 </button>
 
-                                {/* Dropdown Filter */}
                                 {showFilters && (
                                     <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[140px]">
                                         <div className="p-2">
@@ -200,7 +195,6 @@ const PartsPage = () => {
                         </div>
                     </div>
 
-                    {/* Active Filters Bar - Only show when filters active */}
                     {hasActiveFilters && (
                         <div className="flex items-center gap-2 mt-2 flex-wrap">
                             {searchTerm && (
@@ -224,7 +218,6 @@ const PartsPage = () => {
                 </div>
             </div>
 
-            {/* Results Header */}
             <div className="max-w-7xl mx-auto px-3 sm:px-4 pt-4 pb-2">
                 <div className="flex items-center justify-between">
                     <div>
@@ -243,7 +236,6 @@ const PartsPage = () => {
                 </div>
             </div>
 
-            {/* Parts Grid */}
             <div className="max-w-7xl mx-auto px-3 sm:px-4 pb-8">
                 {partsList.length === 0 ? (
                     <div className="text-center py-12">
@@ -276,18 +268,15 @@ const PartsPage = () => {
                                     onClick={() => setSelectedPart(part)}
                                     className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden group"
                                 >
-                                    {/* Image Container */}
                                     <div className="relative aspect-square bg-gray-100">
                                         <img
                                             src={imageURL || "/api/placeholder/300/200"}
                                             alt={name}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                                         />
-                                        {/* Price Badge */}
                                         <div className="absolute top-1.5 right-1.5 bg-black/80 text-white text-xs font-bold px-1.5 py-0.5 rounded">
                                             ₹{Number(price).toLocaleString()}
                                         </div>
-                                        {/* Added to Cart Overlay */}
                                         {isJustAdded && (
                                             <div className="absolute inset-0 bg-green-500/90 flex items-center justify-center">
                                                 <div className="text-white text-center">
@@ -300,7 +289,6 @@ const PartsPage = () => {
                                         )}
                                     </div>
 
-                                    {/* Content */}
                                     <div className="p-2">
                                         <h3 className="font-medium text-gray-900 text-xs line-clamp-2 mb-1 leading-tight">
                                             {name}
@@ -309,7 +297,6 @@ const PartsPage = () => {
                                             {desc}
                                         </p>
 
-                                        {/* Cart Controls */}
                                         {cartItem ? (
                                             <div className="flex items-center justify-between bg-blue-50 rounded-lg p-1.5">
                                                 <button

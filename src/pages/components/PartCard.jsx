@@ -25,7 +25,6 @@ const PartCard = ({ part }) => {
                 className="group border border-gray-200 rounded-lg bg-white hover:shadow-md transition-all duration-200 hover:border-gray-300 active:scale-95 flex flex-col h-full cursor-pointer"
                 onClick={() => setIsModalOpen(true)}
             >
-                {/* Image */}
                 <div className="relative overflow-hidden bg-gray-100">
                     <img
                         src={imageURL || "/api/placeholder/300/200"}
@@ -39,7 +38,6 @@ const PartCard = ({ part }) => {
                     )}
                 </div>
 
-                {/* Content */}
                 <div className="p-3 flex-1 flex flex-col">
                     <h3 className="font-semibold text-sm text-gray-900 line-clamp-1 mb-1">{name}</h3>
                     <p className="text-xs text-gray-600 line-clamp-2 mb-2 flex-1">{desc}</p>
@@ -49,7 +47,6 @@ const PartCard = ({ part }) => {
                         <p className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">{part[3]}</p>
                     </div>
 
-                    {/* Cart Controls */}
                     <div className="mt-2">
                         {cartItem ? (
                             <div className="flex items-center justify-between bg-blue-50 rounded-lg p-1.5">
@@ -89,7 +86,6 @@ const PartCard = ({ part }) => {
                 </div>
             </div>
 
-            {/* Modal */}
             <UniversalModal
                 part={part}
                 isOpen={isModalOpen}

@@ -86,7 +86,7 @@ const BossMotorSplash = () => {
             initial="hidden"
             animate="visible"
         >
-            {/* Main Logo */}
+       
             <motion.div
                 className="text-center mb-8"
                 variants={logoVariants}
@@ -107,12 +107,12 @@ const BossMotorSplash = () => {
                 </motion.h2>
             </motion.div>
 
-            {/* Phrase Container */}
+           
             <motion.div
                 className="text-center space-y-4"
                 variants={phraseVariants}
             >
-                {/* EYE IT! */}
+        
                 <motion.div
                     className="flex justify-center space-x-2"
                     custom={0}
@@ -124,7 +124,7 @@ const BossMotorSplash = () => {
                     <span className="text-2xl md:text-4xl font-bold text-yellow-400">IT!</span>
                 </motion.div>
 
-                {/* TRY IT! */}
+           
                 <motion.div
                     className="flex justify-center space-x-2"
                     custom={1}
@@ -136,7 +136,7 @@ const BossMotorSplash = () => {
                     <span className="text-2xl md:text-4xl font-bold text-green-400">IT!</span>
                 </motion.div>
 
-                {/* BUY IT! */}
+      
                 <motion.div
                     className="flex justify-center space-x-2"
                     custom={2}
@@ -149,7 +149,7 @@ const BossMotorSplash = () => {
                 </motion.div>
             </motion.div>
 
-            {/* Decorative Elements */}
+      
             <motion.div
                 className="absolute bottom-10"
                 initial={{ opacity: 0, y: 20 }}
@@ -160,7 +160,6 @@ const BossMotorSplash = () => {
                 <p className="text-white text-sm opacity-70">Premium Automotive Experience</p>
             </motion.div>
 
-            {/* Animated Background Elements */}
             <motion.div
                 className="absolute top-10 left-10 w-20 h-20 border-2 border-red-500 rounded-full"
                 animate={{

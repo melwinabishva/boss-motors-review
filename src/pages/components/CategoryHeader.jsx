@@ -16,7 +16,6 @@ const CategoryHeader = ({
     return (
         <div className="bg-white border-b border-gray-200 sticky top-[64px] z-40">
             <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
-                {/* Left: Back + Title */}
                 <div className="flex items-center gap-2 flex-shrink-0">
                     <button
                         onClick={onBack}
@@ -29,9 +28,7 @@ const CategoryHeader = ({
                     </h2>
                 </div>
 
-                {/* Right: Search + Brand */}
                 <div className="flex items-center gap-2 ml-auto flex-shrink-0">
-                    {/* Search Input */}
                     {/* <div
                         className={`flex items-center bg-white border rounded-lg px-3 py-1.5 transition-all duration-200 w-40 sm:w-64
               ${isFocused ? "border-blue-400 shadow-sm" : "border-gray-300"}`}
@@ -60,7 +57,6 @@ const CategoryHeader = ({
                         )}
                     </div> */}
 
-                    {/* Brand Dropdown */}
                     <div className="relative w-40 sm:w-auto">
                         <select
                             value={selectedBrand}

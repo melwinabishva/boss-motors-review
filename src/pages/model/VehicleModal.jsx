@@ -10,23 +10,19 @@ const VehicleModal = ({ vehicle, onClose }) => {
     const [id, make, model, year, variant, imageURL] = vehicle;
 
     const handleCategorySelect = (category) => {
-        onClose(); // Close modal first for better UX
+        onClose(); 
         navigate(`/parts/${id}/${category}`);
     };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Enhanced Backdrop */}
             <div
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
                 onClick={onClose}
             />
 
-            {/* Modal Container */}
             <div className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden animate-scale-in">
-                {/* Header with Gradient */}
                 <div className="relative h-48 overflow-hidden bg-gradient(135deg, #667eea 0%, #764ba2 100%)">
-                    {/* Vehicle Image with Overlay */}
                     <div className="absolute inset-0">
                         <img
                             src={imageURL || "/api/placeholder/400/300"}
@@ -36,7 +32,6 @@ const VehicleModal = ({ vehicle, onClose }) => {
                         <div className="absolute inset-0 bg-black/20" />
                     </div>
 
-                    {/* Close Button */}
                     <button
                         onClick={onClose}
                         className="absolute top-4 right-4 p-2 rounded-full bg-white/90 backdrop-blur-sm shadow-lg hover:bg-white hover:scale-110 transition-all duration-200 group"
@@ -44,7 +39,6 @@ const VehicleModal = ({ vehicle, onClose }) => {
                         <X size={20} className="text-gray-700 group-hover:text-gray-900" />
                     </button>
 
-                    {/* Vehicle Badge */}
                     {/* <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg">
                         <div className="flex items-center gap-1 text-xs font-semibold text-gray-800">
                             <Car size={14} />
@@ -53,9 +47,7 @@ const VehicleModal = ({ vehicle, onClose }) => {
                     </div> */}
                 </div>
 
-                {/* Content Section */}
                 <div className="p-6 space-y-4">
-                    {/* Title Section */}
                     <div className="space-y-2">
                         <h2 className="text-2xl font-bold text-gray-900 leading-tight">
                             {make} {model}
@@ -72,10 +64,8 @@ const VehicleModal = ({ vehicle, onClose }) => {
                         </div>
                     </div>
 
-                    {/* Divider */}
                     <div className="border-t border-gray-100" />
 
-                    {/* Action Section */}
                     <div className="space-y-3">
                         <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-700 uppercase tracking-wide">
                             <Sparkles size={16} />
@@ -122,7 +112,6 @@ const VehicleModal = ({ vehicle, onClose }) => {
 
                 </div>
 
-                {/* Footer */}
                 <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
                     <p className="text-xs text-gray-500 text-center">
                         Ready to find the perfect parts for your {make} {model}

@@ -8,7 +8,6 @@ const FilterBar = ({ searchTerm, setSearchTerm, selectedBrand, setSelectedBrand,
 
     return (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
-            {/* Left: Title and count (optional) */}
             <div className="flex flex-col">
                 <h2 className="font-semibold text-lg text-gray-800">Products</h2>
                 <p className="text-sm text-gray-500">
@@ -16,9 +15,7 @@ const FilterBar = ({ searchTerm, setSearchTerm, selectedBrand, setSelectedBrand,
                 </p>
             </div>
 
-            {/* Right: Search + Filter */}
             <div className="flex items-center gap-2 w-full sm:w-auto">
-                {/* Search Input */}
                 <div
                     className={`flex items-center bg-white border rounded-lg px-3 py-2 transition-all duration-200 w-full sm:w-64
                     ${isFocused ? "border-blue-400 shadow-sm" : "border-gray-300"}`}
@@ -39,7 +36,6 @@ const FilterBar = ({ searchTerm, setSearchTerm, selectedBrand, setSelectedBrand,
                     />
                 </div>
 
-                {/* Filter Dropdown Button */}
                 <div className="relative">
                     <select
                         value={selectedBrand}

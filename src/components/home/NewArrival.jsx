@@ -48,7 +48,7 @@ const NewArrival = () => {
 
     return (
         <section className="py-12 px-4 md:px-8 relative max-w-7xl mx-auto">
-            {/* Header Section */}
+    
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 px-2">
                 <div className="flex items-center gap-3 mb-4 sm:mb-0">
                     <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-xl">
@@ -63,9 +63,9 @@ const NewArrival = () => {
 
             </div>
 
-            {/* Scroll Container */}
+      
             <div className="relative group">
-                {/* Left Arrow */}
+               
                 {showLeftArrow && (
                     <button
                         onClick={() => scroll("left")}
@@ -80,7 +80,6 @@ const NewArrival = () => {
                     </button>
                 )}
 
-                {/* Right Arrow */}
                 {showRightArrow && (
                     <button
                         onClick={() => scroll("right")}
@@ -95,7 +94,7 @@ const NewArrival = () => {
                     </button>
                 )}
 
-                {/* Products Grid */}
+           
                 <div className="mx-2 md:mx-4">
                     <div
                         ref={scrollRef}
@@ -116,7 +115,7 @@ const NewArrival = () => {
                                      hover:border-gray-200 group flex flex-col transform hover:-translate-y-1"
                                     style={{ animationDelay: `${index * 0.1}s` }}
                                 >
-                                    {/* Image Container */}
+                                  
                                     <div className="relative overflow-hidden rounded-t-2xl bg-gray-100">
                                         <img
                                             src={imageURL || "/api/placeholder/300/200"}
@@ -125,14 +124,13 @@ const NewArrival = () => {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                                        {/* NEW Badge */}
+                                    
                                         <div className="absolute top-4 left-4">
                                             <span className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
                                                 NEW ARRIVAL
                                             </span>
                                         </div>
 
-                                        {/* Quick Add Button - Shows on Hover */}
                                         {!cartItem && (
                                             <button
                                                 onClick={() =>
@@ -156,9 +154,8 @@ const NewArrival = () => {
                                         )}
                                     </div>
 
-                                    {/* Content Section */}
+                                 
                                     <div className="p-4 flex-1 flex flex-col">
-                                        {/* Name and Description */}
                                         <div className="mb-3 flex-1">
                                             <h3 className="font-semibold text-gray-900 text-base line-clamp-2 mb-2 leading-tight">
                                                 {name}
@@ -168,7 +165,6 @@ const NewArrival = () => {
                                             </p>
                                         </div>
 
-                                        {/* Price and Actions */}
                                         <div className="space-y-3">
                                             <div className="flex items-center justify-between">
                                                 <span className="text-xl font-bold text-gray-900">₹{price}</span>
@@ -179,7 +175,6 @@ const NewArrival = () => {
                                                 )}
                                             </div>
 
-                                            {/* Action Buttons */}
                                             {cartItem ? (
                                                 <div className="flex items-center justify-between bg-gray-50 rounded-xl p-2">
                                                     <button
@@ -236,7 +231,6 @@ const NewArrival = () => {
                     </div>
                 </div>
 
-                {/* Scroll Indicator */}
                 <div className="flex justify-center mt-6 space-x-1">
                     {[1, 2, 3].map((dot) => (
                         <div

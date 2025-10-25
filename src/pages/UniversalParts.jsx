@@ -61,7 +61,6 @@ const CategoryView = () => {
                 <CategoryList categories={categories} onSelect={setSelectedCategory} />
             ) : (
                 <div className="relative">
-                    {/* Fixed Header */}
                     <CategoryHeaderWrapper
                         selectedCategory={selectedCategory}
                         onBack={() => {
@@ -76,7 +75,6 @@ const CategoryView = () => {
                         brands={brands}
                     />
 
-                    {/* Parts Grid */}
                     <div className="mt-4 pb-8">
                         {filteredItems.length > 0 ? (
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">

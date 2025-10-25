@@ -15,7 +15,7 @@ const Footer = () => {
 
     return (
         <>
-            {/* --- Mobile Footer Nav --- */}
+          
             <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md md:hidden">
                 <div className="flex justify-around py-2 relative">
                     <Link to="/" className={`flex flex-col items-center ${isActive("/")}`}>
@@ -31,7 +31,7 @@ const Footer = () => {
                         <span className="text-xs mt-1">Parts</span>
                     </Link>
 
-                    {/* --- Cart Button with Badge --- */}
+             
                     <div className="relative">
                         <Link to="/cart" className={`flex flex-col items-center ${isActive("/cart")}`}>
                             <ShoppingCart size={22} />
@@ -54,7 +54,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            {/* --- Desktop Footer Info --- */}
+        
             <footer className="hidden md:block bg-gray-900 text-gray-300 py-10 mt-10">
                 <div className="max-w-6xl mx-auto px-4 grid grid-cols-3 gap-8">
                     <motion.div

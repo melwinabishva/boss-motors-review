@@ -76,7 +76,6 @@ const NotFound = () => {
             initial="hidden"
             animate="visible"
         >
-            {/* Background Animated Blobs */}
             <motion.div
                 className="absolute bottom-6 left-6 w-24 h-24 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl"
                 variants={pulseVariants}
@@ -95,7 +94,6 @@ const NotFound = () => {
                 transition={{ delay: 2 }}
             />
 
-            {/* Main Content */}
             <motion.div
                 className="relative mb-8"
                 variants={floatingVariants}
@@ -132,7 +130,6 @@ const NotFound = () => {
                 </motion.div>
             </motion.div>
 
-            {/* Text Content */}
             <motion.div className="max-w-md mx-auto" variants={containerVariants}>
                 <motion.h1
                     className="text-4xl md:text-5xl font-bold text-gray-800 mb-4"
@@ -155,7 +152,6 @@ const NotFound = () => {
                     Don't worry, even the best explorers get lost sometimes. Let's get you back on track.
                 </motion.p>
 
-                {/* Action Buttons */}
                 <motion.div
                     className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
                     variants={itemVariants}
@@ -202,7 +198,6 @@ const NotFound = () => {
 
             </motion.div>
 
-            {/* Floating particles */}
             {[...Array(5)].map((_, i) => (
                 <motion.div
                     key={i}

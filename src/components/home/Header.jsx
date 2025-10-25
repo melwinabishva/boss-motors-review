@@ -13,7 +13,7 @@ const Header = () => {
     return (
 
         <header id="main-header" className="bg-white shadow-md sticky top-0 z-50">
-            {/* --- Mobile Header --- */}
+       
             <div className="flex items-center justify-between px-4 py-3 md:hidden">
                 <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
                     BOSS MOTORS
@@ -26,7 +26,7 @@ const Header = () => {
                 </Link>
             </div>
 
-            {/* --- Desktop Header --- */}
+        
             <div className="hidden md:flex items-center justify-between max-w-7xl mx-auto px-6 py-4">
                 <Link
                     to="/"
@@ -48,7 +48,7 @@ const Header = () => {
                         <Package size={18} /> Parts
                     </Link>
 
-                    {/* --- Cart Icon with Badge --- */}
+                  
                     <div className="relative">
                         <Link to="/cart" className="hover:text-blue-600 flex items-center gap-1">
                             <ShoppingCart size={18} /> Cart

@@ -26,29 +26,26 @@ const PartDetailModal = ({ part, isOpen, onClose }) => {
     return (
         <div
             className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center"
-            onClick={onClose} // clicking on background closes modal
+            onClick={onClose} 
         >
             <div
                 className="bg-white rounded-lg w-11/12 max-w-md shadow-lg overflow-hidden"
-                onClick={(e) => e.stopPropagation()} // prevent clicks inside modal from closing
+                onClick={(e) => e.stopPropagation()} 
             >
-                {/* Header */}
                 <div className="flex justify-between items-start p-4 border-b border-gray-200">
                     <div className="space-y-1">
                         <h2 className="text-lg font-semibold text-gray-900">{part[1]}</h2>
                         <p className="text-xs text-gray-500">{part[4]}</p>
                     </div>
                     <button
-                        onClick={(e) => { e.stopPropagation(); onClose(); }} // single click close
+                        onClick={(e) => { e.stopPropagation(); onClose(); }} 
                         className="text-gray-400 hover:text-gray-700 transition-colors"
                     >
                         <X size={20} />
                     </button>
                 </div>
 
-                {/* Content */}
                 <div className="p-4 space-y-3">
-                    {/* Image */}
                     <div className="flex justify-center items-center p-3 bg-gray-50 rounded-lg shadow-sm">
                         <img
                             src={part[6] || "/api/placeholder/300/200"}
@@ -58,21 +55,17 @@ const PartDetailModal = ({ part, isOpen, onClose }) => {
                         />
                     </div>
 
-                    {/* Description */}
                     <p className="text-xs text-gray-600">{part[4]}</p>
 
-                    {/* Category & Type Tags */}
                     <div className="flex flex-wrap gap-2 mt-2">
                         <span className="bg-gray-100 px-3 py-1 rounded-full text-gray-700 text-xs">{part[2]}</span>
                         <span className="bg-blue-100 px-3 py-1 rounded-full text-blue-700 text-xs">{part[3]}</span>
                     </div>
 
-                    {/* Price */}
                     <div className="mt-3 flex justify-between items-center">
                         <span className="text-xl font-bold text-gray-900">₹{Number(part[5]).toLocaleString()}</span>
                     </div>
 
-                    {/* Cart Controls */}
                     {cartItem ? (
                         <div className="flex items-center justify-center gap-4 mt-4 bg-gray-50 rounded-lg p-2">
                             <button

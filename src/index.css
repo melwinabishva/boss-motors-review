@@ -1,9 +1,8 @@
-/* Smooth scrolling for the entire page */
+
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom easing for carousel */
 .transition-all {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -30,18 +29,18 @@ html {
   animation: scale-in 0.2s ease-out;
 }
 
-/* Hide scrollbar for Chrome, Safari, and Edge */
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for Firefox */
+
 .hide-scrollbar {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
 }
 
-/* Add to your global CSS */
+
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;

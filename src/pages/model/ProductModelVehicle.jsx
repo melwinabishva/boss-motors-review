@@ -54,7 +54,6 @@ const PartModal = ({
                 className="bg-white rounded-lg w-full max-w-md overflow-hidden relative shadow-lg transform transition-transform duration-300 scale-100"
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* Close Button */}
                 <button
                     onClick={onClose}
                     className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 p-1 transition-colors"
@@ -62,7 +61,6 @@ const PartModal = ({
                     <X size={20} />
                 </button>
 
-                {/* Image */}
                 <div className="w-full aspect-square bg-gray-50 flex items-center justify-center p-3">
                     <img
                         src={imageURL || "/api/placeholder/300/200"}
@@ -72,18 +70,14 @@ const PartModal = ({
                     />
                 </div>
 
-                {/* Content */}
                 <div className="p-4 flex flex-col gap-2 max-h-[400px] overflow-y-auto">
-                    {/* Title & Description */}
                     <h2 className="text-lg font-semibold text-gray-900">{name}</h2>
                     <p className="text-xs text-gray-500">{desc}</p>
 
-                    {/* Price */}
                     <p className="text-xl font-bold text-gray-900 mt-2">
                         ₹{Number(price).toLocaleString()}
                     </p>
 
-                    {/* Quantity / Add to Cart */}
                     {cartItem ? (
                         <div className="flex items-center gap-4 mt-4 bg-gray-50 rounded-lg p-2 justify-center">
                             <button

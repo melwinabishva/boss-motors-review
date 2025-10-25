@@ -18,13 +18,11 @@ const SearchBar = ({ onSearch }) => {
         <div className="w-full flex justify-center my-6 px-4">
             <form onSubmit={handleSubmit} className="relative w-full max-w-xl">
                 <div className="relative group">
-                    {/* Search Icon */}
                     <Search
                         size={20}
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200"
                     />
 
-                    {/* Input Field */}
                     <input
                         type="text"
                         value={query}
@@ -37,7 +35,6 @@ const SearchBar = ({ onSearch }) => {
                      text-base"
                     />
 
-                    {/* Clear Button */}
                     {query && (
                         <button
                             type="button"
