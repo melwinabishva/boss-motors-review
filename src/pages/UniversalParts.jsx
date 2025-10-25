@@ -1,10 +1,9 @@
-// src/pages/CategoryView/CategoryView.js
 import React, { useState, useContext, useMemo } from "react";
 import { DataContext } from "../context/DataContext";
 import CategoryList from "./components/CategoryList";
 import PartCard from "./components/PartCard";
 import CategoryHeaderWrapper from "./components/CategoryHeaderWrapper";
-import UniversalModal from "../pages/model/ProductModelUniversel";
+import { useViewMode } from "../context/ViewModeProvider";
 
 const CategoryView = () => {
     const { universalParts, loading, cart, addToCart, updateQuantity, removeFromCart } = useContext(DataContext);
@@ -14,14 +13,13 @@ const CategoryView = () => {
     const [selectedBrand, setSelectedBrand] = useState("");
     const [selectedPart, setSelectedPart] = useState(null);
     const [addedToCartId, setAddedToCartId] = useState(null);
+    const { viewMode, setViewMode } = useViewMode()
 
-    // Unique categories
     const categories = useMemo(
         () => [...new Set(universalParts.map((p) => p[2]))],
         [universalParts]
     );
 
-    // Unique brands for selected category
     const brands = useMemo(() => {
         if (!selectedCategory) return [];
         return [
@@ -73,21 +71,25 @@ const CategoryView = () => {
                         selectedBrand={selectedBrand}
                         setSelectedBrand={setSelectedBrand}
                         brands={brands}
+                        viewMode={viewMode}
+                        setViewMode={setViewMode}
                     />
 
                     <div className="mt-4 pb-8">
                         {filteredItems.length > 0 ? (
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
+                            <div className={viewMode === "grid"
+                                ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                                : "flex flex-col gap-4"
+                            }>
                                 {filteredItems.map((part) => {
-                                    const cartItem = cart.find(
-                                        (c) => c.id === part[0] && c.type === part[2]
-                                    );
+                                    const cartItem = cart.find(c => c.id === part[0] && c.type === part[2]);
                                     const isJustAdded = addedToCartId === part[0];
 
                                     return (
                                         <div
                                             key={`${part[0]}-${part[2]}-${part[1]}`}
                                             onClick={() => setSelectedPart(part)}
+                                            className={viewMode === "list" ? "flex gap-4 items-center" : ""}
                                         >
                                             <PartCard
                                                 part={part}
@@ -96,6 +98,7 @@ const CategoryView = () => {
                                                 handleAddToCart={handleAddToCart}
                                                 updateQuantity={updateQuantity}
                                                 removeFromCart={removeFromCart}
+                                                viewMode={viewMode}
                                             />
                                         </div>
                                     );
@@ -105,6 +108,7 @@ const CategoryView = () => {
                             <p className="text-center text-gray-500 mt-6">No items found.</p>
                         )}
                     </div>
+
 
 
                 </div>

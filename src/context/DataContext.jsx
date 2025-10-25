@@ -2,6 +2,8 @@
 import React, { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNotification } from "./NotificationProvider";
+
 
 export const DataContext = createContext();
 
@@ -10,6 +12,7 @@ export const DataProvider = ({ children }) => {
     const [parts, setParts] = useState([]);
     const [universalParts, setUniversalParts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { showNotification } = useNotification();
 
     // Initialize cart from localStorage
     const [cart, setCart] = useState(() => {
@@ -48,7 +51,7 @@ export const DataProvider = ({ children }) => {
                 setUniversalParts(universalPartsRes.values || []);
             } catch (error) {
                 console.error("Error fetching Google Sheets data:", error);
-                toast.error("Failed to load data from Google Sheets", { position: "top-right" });
+                showNotification("Failed to load data from Google Sheets", "error");
             } finally {
                 setLoading(false);
             }
@@ -74,15 +77,8 @@ export const DataProvider = ({ children }) => {
             return [...prev, { ...item, qty: 1 }];
         });
 
-        toast.success(`${item.name} added to cart`, {
-            position: "top-right",
-            autoClose: 2000,
-            style: {
-                fontSize: window.innerWidth < 640 ? "0.7rem" : "0.85rem",
-                marginTop: "50px",
-                padding: "6px 12px",
-            },
-        });
+        showNotification(`${item.name} added to cart`, "success");
+
     };
 
 
@@ -100,17 +96,8 @@ export const DataProvider = ({ children }) => {
 
     const removeFromCart = (id, type) => {
         const removedItem = cart.find((item) => item.id === id && item.type === type);
-        if (removedItem) {
-            toast.info(`${removedItem.name} removed from cart`, {
-                position: "top-right",
-                autoClose: 2000,
-                style: {
-                    fontSize: window.innerWidth < 640 ? "0.7rem" : "0.85rem",
-                    marginTop: "50px",
-                    padding: "6px 12px",
-                },
-            });
-        }
+        if (removedItem) showNotification(`${removedItem.name} removed from cart`, "info");
+
         setCart((prev) => prev.filter((item) => !(item.id === id && item.type === type)));
     };
 
@@ -118,29 +105,15 @@ export const DataProvider = ({ children }) => {
     const clearCart = () => {
         setCart([]);
         localStorage.removeItem("cart");
-        toast.info("Cart cleared", {
-            position: "top-right",
-            autoClose: 2000,
-            style: {
-                fontSize: window.innerWidth < 640 ? "0.7rem" : "0.85rem",
-                marginTop: "50px",
-                padding: "6px 12px",
-            },
-        });
+        showNotification("Cart cleared", "info");
+
     };
 
     const checkout = () => {
         setCart([]);
         localStorage.removeItem("cart");
-        toast.success("Order placed successfully!", {
-            position: "top-right",
-            autoClose: 2000,
-            style: {
-                fontSize: window.innerWidth < 640 ? "0.7rem" : "0.85rem",
-                marginTop: "50px",
-                padding: "6px 12px",
-            },
-        });
+        showNotification("Order placed successfully!", "success");
+
     };
 
     return (

@@ -21,7 +21,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // ✅ required import
 import NotFound from "./pages/NotFound";
 
-
 const Layout = ({ children }) => {
   const location = useLocation();
   const { loading } = useContext(DataContext);

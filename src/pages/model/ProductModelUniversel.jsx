@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { X, ShoppingCart, Plus, Minus } from "lucide-react";
+import { X, ShoppingCart, Plus, Minus, Tag, Package } from "lucide-react";
 import { DataContext } from "../../context/DataContext";
 
 const PartDetailModal = ({ part, isOpen, onClose }) => {
@@ -8,8 +8,6 @@ const PartDetailModal = ({ part, isOpen, onClose }) => {
     if (!isOpen || !part) return null;
 
     const type = part[2] || "universal";
-
-    // Get cart item from context to reflect current quantity
     const cartItem = cart.find(c => c.id === part[0] && c.type === type);
 
     const handleAddToCart = () => {
@@ -23,79 +21,113 @@ const PartDetailModal = ({ part, isOpen, onClose }) => {
         });
     };
 
+    const handleQuantityDecrease = () => {
+        if (cartItem.qty === 1) {
+            removeFromCart(part[0], type);
+        } else {
+            updateQuantity(part[0], type, cartItem.qty - 1);
+        }
+    };
+
     return (
         <div
-            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center"
-            onClick={onClose} 
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-2 md:p-4"
+            onClick={onClose}
         >
             <div
-                className="bg-white rounded-lg w-11/12 max-w-md shadow-lg overflow-hidden"
-                onClick={(e) => e.stopPropagation()} 
+                className="bg-white rounded-xl w-full max-w-md shadow-2xl flex flex-col max-h-[95vh] md:h-[85vh] overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
             >
-                <div className="flex justify-between items-start p-4 border-b border-gray-200">
-                    <div className="space-y-1">
-                        <h2 className="text-lg font-semibold text-gray-900">{part[1]}</h2>
-                        <p className="text-xs text-gray-500">{part[4]}</p>
+                {/* Header */}
+                <div className="flex justify-between items-start p-3 md:p-4 border-b border-gray-100 flex-shrink-0">
+                    <div className="flex-1 min-w-0 pr-2">
+                        <h2 className="text-base md:text-lg font-bold text-gray-900 truncate">{part[1]}</h2>
+                        <p className="text-xs text-gray-600 mt-1 line-clamp-2">{part[4]}</p>
                     </div>
                     <button
-                        onClick={(e) => { e.stopPropagation(); onClose(); }} 
-                        className="text-gray-400 hover:text-gray-700 transition-colors"
+                        onClick={onClose}
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
                     >
-                        <X size={20} />
+                        <X size={18} className="text-gray-500" />
                     </button>
                 </div>
 
-                <div className="p-4 space-y-3">
-                    <div className="flex justify-center items-center p-3 bg-gray-50 rounded-lg shadow-sm">
+                {/* Content */}
+                <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-3 md:space-y-4">
+                    {/* Image */}
+                    <div className="aspect-square max-h-48 md:max-h-60 bg-gray-50 rounded-xl overflow-hidden shadow-sm mx-auto">
                         <img
-                            src={part[6] || "/api/placeholder/300/200"}
+                            src={part[6] || "/api/placeholder/300/300"}
                             alt={part[1]}
-                            className="max-h-56 w-full object-contain transition-transform duration-200 hover:scale-105"
-                            onError={(e) => (e.target.src = "/api/placeholder/300/200")}
+                            className="w-full h-full object-cover"
+                            onError={(e) => (e.target.src = "/api/placeholder/300/300")}
                         />
                     </div>
 
-                    <p className="text-xs text-gray-600">{part[4]}</p>
-
-                    <div className="flex flex-wrap gap-2 mt-2">
-                        <span className="bg-gray-100 px-3 py-1 rounded-full text-gray-700 text-xs">{part[2]}</span>
-                        <span className="bg-blue-100 px-3 py-1 rounded-full text-blue-700 text-xs">{part[3]}</span>
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 text-xs">
+                        <div className="flex items-center gap-1 bg-blue-50 px-2 py-1 rounded-full">
+                            <Package size={14} className="text-blue-600" />
+                            <span className="text-blue-700 capitalize">{type}</span>
+                        </div>
+                        {part[3] && (
+                            <div className="flex items-center gap-1 bg-green-50 px-2 py-1 rounded-full">
+                                <Tag size={14} className="text-green-600" />
+                                <span className="text-green-700">{part[3]}</span>
+                            </div>
+                        )}
                     </div>
 
-                    <div className="mt-3 flex justify-between items-center">
-                        <span className="text-xl font-bold text-gray-900">₹{Number(part[5]).toLocaleString()}</span>
-                    </div>
+                    {/* Description */}
+                    {part[4] && (
+                        <div className="bg-gray-50 rounded-lg p-2 text-xs text-gray-700 leading-relaxed">
+                            {part[4]}
+                        </div>
+                    )}
 
+                    {/* Price */}
+                    <div className="text-lg md:text-xl font-bold text-gray-900">
+                        ₹{Number(part[5]).toLocaleString()}
+                    </div>
+                </div>
+
+                {/* Footer */}
+                <div className="flex-shrink-0 p-3 md:p-4 border-t border-gray-100 bg-white">
                     {cartItem ? (
-                        <div className="flex items-center justify-center gap-4 mt-4 bg-gray-50 rounded-lg p-2">
+                        <div className="flex items-center justify-between gap-3">
                             <button
-                                onClick={() => {
-                                    if (cartItem.qty === 1) removeFromCart(part[0], type);
-                                    else updateQuantity(part[0], type, cartItem.qty - 1);
-                                }}
-                                className="w-10 h-10 flex items-center justify-center bg-white border rounded-lg hover:bg-gray-100 transition"
+                                onClick={handleQuantityDecrease}
+                                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 active:scale-95 transition-all"
                             >
-                                <Minus size={14} />
+                                <Minus size={18} className="text-gray-700" />
                             </button>
-                            <span className="font-semibold text-blue-600 text-lg">{cartItem.qty}</span>
+
+                            <div className="flex-1 text-center">
+                                <div className="text-xs md:text-sm text-gray-600">Quantity in cart</div>
+                                <div className="text-lg md:text-2xl font-bold text-blue-600">{cartItem.qty}</div>
+                            </div>
+
                             <button
                                 onClick={() => updateQuantity(part[0], type, cartItem.qty + 1)}
-                                className="w-10 h-10 flex items-center justify-center bg-white border rounded-lg hover:bg-gray-100 transition"
+                                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 active:scale-95 transition-all"
                             >
-                                <Plus size={14} />
+                                <Plus size={18} className="text-gray-700" />
                             </button>
                         </div>
                     ) : (
                         <button
                             onClick={handleAddToCart}
-                            className="w-full mt-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center justify-center gap-2 transition"
+                            className="w-full py-2.5 md:py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 md:gap-3 transition-all duration-200 hover:shadow-lg active:scale-95"
                         >
-                            <ShoppingCart size={16} /> Add to Cart
+                            <ShoppingCart size={18} />
+                            Add to Cart
                         </button>
                     )}
                 </div>
             </div>
         </div>
+
+
     );
 };
 

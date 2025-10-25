@@ -1,5 +1,5 @@
-// src/pages/model/ProductModelVehicle.js
-import React, { useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
 import { X, ShoppingCart, Plus, Minus } from "lucide-react";
 
 const PartModal = ({
@@ -11,9 +11,17 @@ const PartModal = ({
     updateQuantity,
     removeFromCart,
 }) => {
-    if (!isOpen || !part) return null;
+    const [imageLoaded, setImageLoaded] = useState(false);
 
-    const [partId, , typeFromSheet, name, desc, price, imageURL] = part;
+    useEffect(() => {
+        const handleEsc = (e) => e.key === "Escape" && onClose();
+        window.addEventListener("keydown", handleEsc);
+        return () => window.removeEventListener("keydown", handleEsc);
+    }, [onClose]);
+
+
+    const [partId, , typeFromSheet, name, desc, price, imageURL] = part || [];
+    if (!isOpen || !part) return null;
 
     const handleAdd = (e) => {
         e.stopPropagation();
@@ -29,77 +37,106 @@ const PartModal = ({
 
     const handleMinus = (e) => {
         e.stopPropagation();
-        if (cartItem.qty === 1) removeFromCart(partId, typeFromSheet);
-        else updateQuantity(partId, typeFromSheet, cartItem.qty - 1);
+        const qty = cartItem?.qty ?? 0;
+        qty <= 1
+            ? removeFromCart(partId, typeFromSheet)
+            : updateQuantity(partId, typeFromSheet, qty - 1);
     };
 
     const handlePlus = (e) => {
         e.stopPropagation();
-        updateQuantity(partId, typeFromSheet, cartItem.qty + 1);
+        const qty = cartItem?.qty ?? 0;
+        updateQuantity(partId, typeFromSheet, qty + 1);
     };
-
-    // Close on Esc key
-    useEffect(() => {
-        const handleEsc = (e) => e.key === "Escape" && onClose();
-        window.addEventListener("keydown", handleEsc);
-        return () => window.removeEventListener("keydown", handleEsc);
-    }, [onClose]);
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity duration-300"
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 bg-black/50 backdrop-blur-sm"
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-lg w-full max-w-md overflow-hidden relative shadow-lg transform transition-transform duration-300 scale-100"
+                className="bg-white rounded-xl w-full max-w-md sm:max-w-lg overflow-hidden relative shadow-2xl transform transition-transform duration-300"
                 onClick={(e) => e.stopPropagation()}
             >
+
                 <button
                     onClick={onClose}
-                    className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 p-1 transition-colors"
+                    className="absolute top-3 right-3 bg-white rounded-full shadow p-1 hover:bg-gray-100 transition"
                 >
-                    <X size={20} />
+                    <X size={18} className="text-gray-700" />
                 </button>
 
-                <div className="w-full aspect-square bg-gray-50 flex items-center justify-center p-3">
+
+                <div className="w-full bg-gray-50 flex items-center justify-center p-3 min-h-[220px] sm:min-h-[280px]">
+                    {!imageLoaded && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
+                        </div>
+                    )}
                     <img
                         src={imageURL || "/api/placeholder/300/200"}
                         alt={name}
-                        className="w-full h-full object-contain transition-transform duration-200 hover:scale-105"
-                        onError={(e) => (e.target.src = "/api/placeholder/300/200")}
+                        className={`max-h-[240px] object-contain transition-all duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"
+                            }`}
+                        onLoad={() => setImageLoaded(true)}
+                        onError={(e) => {
+                            e.target.src = "/api/placeholder/300/200";
+                            setImageLoaded(true);
+                        }}
                     />
                 </div>
 
-                <div className="p-4 flex flex-col gap-2 max-h-[400px] overflow-y-auto">
-                    <h2 className="text-lg font-semibold text-gray-900">{name}</h2>
-                    <p className="text-xs text-gray-500">{desc}</p>
 
-                    <p className="text-xl font-bold text-gray-900 mt-2">
-                        ₹{Number(price).toLocaleString()}
-                    </p>
+                <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
+                            {typeFromSheet}
+                        </span>
+                        <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
+                            In Stock
+                        </span>
+                    </div>
+
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900">{name}</h2>
+                    <p className="text-sm text-gray-600 leading-relaxed">{desc}</p>
+
+                    <p className="text-2xl font-bold text-gray-900">₹{Number(price).toLocaleString()}</p>
+
 
                     {cartItem ? (
-                        <div className="flex items-center gap-4 mt-4 bg-gray-50 rounded-lg p-2 justify-center">
+                        <div className="space-y-3 pt-2">
+                            <div className="flex items-center justify-between bg-gray-50 rounded-lg p-2">
+                                <span className="text-sm font-medium text-gray-700">Quantity:</span>
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        onClick={handleMinus}
+                                        className="w-9 h-9 flex items-center justify-center border rounded-lg hover:bg-gray-50"
+                                    >
+                                        <Minus size={14} className="text-gray-600" />
+                                    </button>
+                                    <span className="text-base font-semibold text-blue-600">
+                                        {cartItem.qty}
+                                    </span>
+                                    <button
+                                        onClick={handlePlus}
+                                        className="w-9 h-9 flex items-center justify-center border rounded-lg hover:bg-gray-50"
+                                    >
+                                        <Plus size={14} className="text-gray-600" />
+                                    </button>
+                                </div>
+                            </div>
+
                             <button
-                                onClick={handleMinus}
-                                className="w-10 h-10 flex items-center justify-center bg-white border rounded-lg hover:bg-gray-100 transition"
+                                onClick={() => removeFromCart(partId, typeFromSheet)}
+                                className="w-full py-2.5 border border-red-300 text-red-700 rounded-lg font-medium hover:bg-red-50 transition"
                             >
-                                <Minus size={16} />
-                            </button>
-                            <span className="text-lg font-semibold text-blue-600">
-                                {cartItem.qty}
-                            </span>
-                            <button
-                                onClick={handlePlus}
-                                className="w-10 h-10 flex items-center justify-center bg-white border rounded-lg hover:bg-gray-100 transition"
-                            >
-                                <Plus size={16} />
+                                Remove from Cart
                             </button>
                         </div>
                     ) : (
                         <button
                             onClick={handleAdd}
-                            className="w-full mt-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center justify-center gap-2 transition"
+                            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg flex items-center justify-center gap-2 transition"
                         >
                             <ShoppingCart size={16} /> Add to Cart
                         </button>
