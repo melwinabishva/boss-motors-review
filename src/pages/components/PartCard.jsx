@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { DataContext } from "../../context/DataContext";
-import { ShoppingCart, Plus, Minus, Eye, Heart, Share2, Star } from "lucide-react";
+import { ShoppingCart, Plus, Minus, Eye, Heart } from "lucide-react";
 import UniversalModal from "../model/ProductModelUniversel";
 
 const PartCard = ({ part, viewMode }) => {
@@ -8,22 +8,18 @@ const PartCard = ({ part, viewMode }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [justAddedId, setJustAddedId] = useState(null);
     const [imageLoaded, setImageLoaded] = useState(false);
-    const [isWishlisted, setIsWishlisted] = useState(false);
     const [imageError, setImageError] = useState(false);
+    const [isWishlisted, setIsWishlisted] = useState(false);
 
     const [partId, , typeFromSheet, name, desc, price, imageURL] = part;
     const cartItem = cart.find(c => c.id === partId && c.type === typeFromSheet);
     const isJustAdded = justAddedId === partId;
 
-    // Mock rating for demonstration
-    const rating = 4.5;
-    const reviews = 24;
-
     const handleAddToCart = (e) => {
         e?.stopPropagation();
         addToCart({ id: partId, type: typeFromSheet, name, price: Number(price), image: imageURL, desc });
         setJustAddedId(partId);
-        setTimeout(() => setJustAddedId(null), 1500);
+        setTimeout(() => setJustAddedId(null), 1200);
     };
 
     const handleQuantityChange = (change, e) => {
@@ -36,31 +32,33 @@ const PartCard = ({ part, viewMode }) => {
         }
     };
 
-    const toggleWishlist = (e) => {
-        e.stopPropagation();
-        setIsWishlisted(!isWishlisted);
-    };
+    const handleImageError = () => setImageError(true);
 
-    const handleImageError = () => {
-        setImageError(true);
-    };
+
 
     return (
         <>
             <div
-                className={`group bg-white rounded-2xl border border-gray-200 shadow-sm transition-all duration-300 cursor-pointer overflow-hidden
-                    ${viewMode === "grid"
-                        ? "flex flex-col h-full hover:shadow-xl hover:-translate-y-1"
-                        : "flex flex-row gap-4 w-full hover:shadow-md"
-                    }`}
                 onClick={() => setIsModalOpen(true)}
+                className={`group bg-white rounded-2xl border border-gray-200 shadow-sm transition-all duration-300 cursor-pointer overflow-hidden w-full
+        ${viewMode === "grid"
+                        ? "flex flex-col h-full hover:shadow-lg hover:-translate-y-1"
+                        : "flex flex-row gap-4 hover:shadow-md"
+                    }`}
             >
+
                 {/* Image Section */}
-                <div className={`relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 
-                    ${viewMode === "grid" ? "h-48" : "w-32 h-32 flex-shrink-0 self-center m-3 rounded-xl"}`}
+                <div
+                    className={`relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 
+            ${viewMode === "grid"
+                            ? "h-40 sm:h-44 md:h-48"
+                            : "w-28 sm:w-32 h-28 sm:h-32 flex-shrink-0 self-center m-3 rounded-xl"
+                        }`}
                 >
                     {/* Loading Skeleton */}
-                    <div className={`absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse ${imageLoaded ? "hidden" : "block"}`} />
+                    {!imageLoaded && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse rounded-md" />
+                    )}
 
                     {/* Product Image */}
                     <img
@@ -68,117 +66,100 @@ const PartCard = ({ part, viewMode }) => {
                         alt={name}
                         onLoad={() => setImageLoaded(true)}
                         onError={handleImageError}
-                        className={`w-full h-full object-cover transition-all duration-500 
-                            ${viewMode === "grid" ? "group-hover:scale-105" : ""} 
-                            ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+                        className={`w-full h-full object-cover transition-transform duration-500 rounded-md
+              ${imageLoaded ? "opacity-100" : "opacity-0"}
+              ${viewMode === "grid" ? "group-hover:scale-105" : ""}
+            `}
                     />
 
-                    {/* Success Overlay */}
+
+
+                    {/* Added to Cart Overlay */}
                     {isJustAdded && (
-                        <div className="absolute inset-0 bg-emerald-500/90 flex items-center justify-center backdrop-blur-sm animate-in fade-in duration-300">
+                        <div className="absolute inset-0 bg-emerald-500/90 flex items-center justify-center backdrop-blur-sm">
                             <div className="text-center text-white">
-                                <div className="w-10 h-10 border-2 border-white rounded-full flex items-center justify-center mx-auto mb-2 animate-bounce">
+                                <div className="w-9 h-9 border-2 border-white rounded-full flex items-center justify-center mx-auto mb-1 animate-bounce">
                                     ✓
                                 </div>
-                                <p className="text-sm font-semibold">Added to Cart!</p>
+                                <p className="text-xs font-medium">Added!</p>
                             </div>
                         </div>
                     )}
 
-                    {/* Badges */}
-                    <div className="absolute top-3 left-3 flex flex-col gap-2">
-                        <span className="bg-white/90 backdrop-blur-sm text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full shadow-sm">
-                            {typeFromSheet}
-                        </span>
-
+                    {/* Badge */}
+                    <div className="absolute top-2 left-2 bg-white/90 text-gray-700 text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-full shadow-sm">
+                        {typeFromSheet}
                     </div>
-
-
                 </div>
 
                 {/* Content Section */}
-                <div className={`flex-1 flex flex-col ${viewMode === "list" ? "py-3 pr-4" : "p-5"}`}>
-                    {/* Product Info */}
-                    <div className="flex-1">
-                        <div className="flex items-start justify-between gap-2 mb-2">
-                            <h3 className="font-bold text-gray-900 text-base leading-tight line-clamp-2 flex-1">
-                                {name}
-                            </h3>
-                            {viewMode === "grid" && (
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setIsModalOpen(true);
-                                    }}
-                                    className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-blue-100 hover:text-blue-600 transition-all duration-200"
-                                >
-                                    <Eye size={14} />
-                                </button>
-                            )}
-                        </div>
-
-                        <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 mb-3">
-                            {desc}
-                        </p>
-
-
+                <div className={`flex-1 flex flex-col ${viewMode === "list" ? "py-2 pr-3" : "p-3 sm:p-4"}`}>
+                    {/* Title */}
+                    <div className="flex items-start justify-between gap-2 mb-1 sm:mb-2">
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base leading-tight line-clamp-2 flex-1">
+                            {name}
+                        </h3>
+                        {viewMode === "grid" && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsModalOpen(true);
+                                }}
+                                className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 hover:bg-blue-100 text-gray-600 hover:text-blue-600 transition-all duration-200"
+                            >
+                                <Eye size={13} />
+                            </button>
+                        )}
                     </div>
 
-                    {/* Price & Actions */}
-                    <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-3 border-t border-gray-100 mt-auto`}>
-                        <div className="flex flex-col">
-                            <p className="font-bold text-blue-600 text-lg">
+                    {/* Description */}
+                    <p className="text-gray-600 text-xs sm:text-sm leading-relaxed line-clamp-2 mb-2 sm:mb-3">
+                        {desc}
+                    </p>
+
+                    {/* Price & Action */}
+                    <div
+                        className={`mt-auto pt-2 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3 ${viewMode === "list" ? "sm:items-end" : ""
+                            }`}
+                    >
+                        <div>
+                            <p className="font-bold text-blue-600 text-sm sm:text-lg">
                                 ₹{Number(price).toLocaleString()}
                             </p>
                             {Number(price) > 10000 && (
-                                <p className="text-xs text-gray-500">
-                                    EMI available
-                                </p>
+                                <p className="text-[10px] sm:text-xs text-gray-500">EMI available</p>
                             )}
                         </div>
 
-                        <div className="flex justify-end sm:justify-end w-full sm:w-auto">
+                        {/* Cart Actions */}
+                        <div className="flex justify-end w-full sm:w-auto sm:self-end">
                             {cartItem ? (
-                                <div className="flex items-center gap-3 bg-blue-50 rounded-xl px-4 py-2">
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={(e) => handleQuantityChange(-1, e)}
-                                            className="w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 hover:shadow transition-all duration-200"
-                                        >
-                                            <Minus size={12} className="text-gray-600" />
-                                        </button>
-                                        <span className="text-gray-900 font-bold text-sm min-w-6 text-center">
-                                            {cartItem.qty}
-                                        </span>
-                                        <button
-                                            onClick={(e) => handleQuantityChange(1, e)}
-                                            className="w-7 h-7 bg-blue-100 rounded-full flex items-center justify-center shadow-sm hover:bg-blue-200 hover:shadow transition-all duration-200"
-                                        >
-                                            <Plus size={12} className="text-blue-600" />
-                                        </button>
-                                    </div>
+                                <div className="flex items-center gap-2 bg-blue-50 rounded-lg px-3 py-1.5">
                                     <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            removeFromCart(partId, typeFromSheet);
-                                        }}
-                                        className="text-red-500 text-xs font-medium hover:text-red-700 transition-colors duration-200"
+                                        onClick={(e) => handleQuantityChange(-1, e)}
+                                        className="w-6 h-6 sm:w-7 sm:h-7 bg-white rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50"
                                     >
-                                        Remove
+                                        <Minus size={12} className="text-gray-600" />
+                                    </button>
+                                    <span className="text-gray-900 font-semibold text-xs sm:text-sm">{cartItem.qty}</span>
+                                    <button
+                                        onClick={(e) => handleQuantityChange(1, e)}
+                                        className="w-6 h-6 sm:w-7 sm:h-7 bg-blue-100 rounded-full flex items-center justify-center shadow-sm hover:bg-blue-200"
+                                    >
+                                        <Plus size={12} className="text-blue-600" />
                                     </button>
                                 </div>
                             ) : (
                                 <button
                                     onClick={handleAddToCart}
-                                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-2.5 px-5 rounded-xl hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
+                                    className="flex items-center justify-center gap-1.5 sm:gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium text-xs sm:text-sm py-1.5 sm:py-2 px-3 sm:px-5 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg"
                                 >
-                                    <ShoppingCart size={16} className="transition-transform duration-300" />
-                                    <span>Add to Cart</span>
+                                    <ShoppingCart size={14} />
+                                    <span>Add</span>
                                 </button>
                             )}
                         </div>
                     </div>
-
                 </div>
             </div>
 

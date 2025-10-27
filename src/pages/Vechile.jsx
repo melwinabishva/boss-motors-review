@@ -1,9 +1,8 @@
 import React, { useContext, useState, useMemo, useRef, useEffect } from "react";
 import { DataContext } from "../context/DataContext";
 import { Search, Filter, Car, X, Grid, List, Star, MapPin } from "lucide-react";
-import VehicleModal from './model/VehicleModal';
+import VehicleModal from "./model/VehicleModal";
 import { useViewMode } from "../context/ViewModeProvider";
-
 
 const Vehicle = () => {
   const { vehicles, loading } = useContext(DataContext);
@@ -21,7 +20,6 @@ const Vehicle = () => {
         setShowFilters(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -51,7 +49,6 @@ const Vehicle = () => {
 
   const vehicleList = vehicles.slice(1);
 
-  // Memoized filtered vehicles
   const filteredVehicles = useMemo(() => {
     return vehicleList.filter(([id, make, model, year, variant, imageURL, price, location]) => {
       const query = searchTerm.toLowerCase();
@@ -59,15 +56,13 @@ const Vehicle = () => {
         make.toLowerCase().includes(query) ||
         model.toLowerCase().includes(query) ||
         variant.toLowerCase().includes(query);
-
       const matchesMake = !makeFilter || make === makeFilter;
-
       return matchesSearch && matchesMake;
     });
   }, [searchTerm, makeFilter, vehicleList]);
 
-  const uniqueMakes = useMemo(() =>
-    [...new Set(vehicleList.map(([_, make]) => make))].sort(),
+  const uniqueMakes = useMemo(
+    () => [...new Set(vehicleList.map(([_, make]) => make))].sort(),
     [vehicleList]
   );
 
@@ -84,178 +79,192 @@ const Vehicle = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30">
-      <div className="bg-white/95 backdrop-blur-sm border-b border-gray-200/60 sticky top-[60px] sm:top-[64px] z-40 shadow-sm">        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3">
-        <div className="flex items-center justify-between gap-3 mb-3">
-          <div className="flex items-center gap-2 min-w-0 flex-1">
-            <div className="bg-blue-100 p-1.5 rounded-lg">
-              <Car className="text-blue-600" size={18} />
+      {/* Sticky Header */}
+      <div className="bg-white border-b border-gray-200 sticky top-[60px] sm:top-[64px] z-40 shadow-sm">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3">
+          <div className="flex items-center justify-between gap-3 mb-3">
+            {/* Left Header Section */}
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <div className="bg-blue-100 p-1.5 rounded-lg">
+                <Car className="text-blue-600" size={18} />
+              </div>
+              <div className="min-w-0">
+                <h1 className="text-lg font-bold text-gray-900 truncate">Vehicles</h1>
+                <p className="text-xs text-gray-500 truncate">
+                  {showingCount} of {totalVehicles} shown
+                </p>
+              </div>
             </div>
-            <div className="min-w-0">
-              <h1 className="text-lg font-bold text-gray-900 truncate">Vehicles</h1>
-              <p className="text-xs text-gray-500 truncate">
-                {showingCount} of {totalVehicles} shown
-              </p>
+
+            {/* Right Header Controls */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {/* Search (Desktop) */}
+              <div className="relative hidden xs:block">
+                <Search className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-32 border border-gray-300 rounded-lg pl-8 pr-2 py-2 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/80"
+                />
+                {searchTerm && (
+                  <button
+                    onClick={() => setSearchTerm("")}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+
+              {/* Filter & View Mode */}
+              <div className="flex items-center gap-1 border border-gray-300 rounded-lg bg-white/80 p-1">
+                <div className="relative" ref={filterRef}>
+                  <button
+                    onClick={() => setShowFilters(!showFilters)}
+                    className={`flex items-center gap-1 px-2 py-1.5 rounded-md text-sm transition-all ${hasActiveFilters
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-gray-600 hover:bg-gray-100"
+                      }`}
+                  >
+                    <Filter size={16} />
+                    {hasActiveFilters && (
+                      <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
+                    )}
+                  </button>
+
+                  {showFilters && (
+                    <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-50 min-w-[140px]">
+                      <div className="p-2 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-medium text-gray-700">Make</span>
+                          {makeFilter && (
+                            <button
+                              onClick={() => setMakeFilter("")}
+                              className="text-blue-600 hover:text-blue-700 text-xs"
+                            >
+                              Clear
+                            </button>
+                          )}
+                        </div>
+                        <select
+                          value={makeFilter}
+                          onChange={(e) => setMakeFilter(e.target.value)}
+                          className="w-full border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          <option value="">All Makes</option>
+                          {uniqueMakes.map((make) => (
+                            <option key={make} value={make}>
+                              {make}
+                            </option>
+                          ))}
+                        </select>
+
+                        {hasActiveFilters && (
+                          <button
+                            onClick={clearFilters}
+                            className="w-full text-center text-xs text-blue-600 hover:text-blue-700 pt-1 border-t border-gray-200"
+                          >
+                            Clear all
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="h-4 w-px bg-gray-300"></div>
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-1.5 rounded transition-colors ${viewMode === "grid"
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-600 hover:bg-gray-100"
+                    }`}
+                >
+                  <Grid size={14} />
+                </button>
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`p-1.5 rounded transition-colors ${viewMode === "list"
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-600 hover:bg-gray-100"
+                    }`}
+                >
+                  <List size={14} />
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <div className="relative hidden xs:block">
-              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+          {/* Search (Mobile) */}
+          <div className="xs:hidden">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search vehicles..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-32 border border-gray-300 rounded-lg pl-8 pr-2 py-2 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/80"
+                className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/80"
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm("")}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
                   <X size={14} />
                 </button>
               )}
             </div>
+          </div>
 
-            <div className="flex items-center gap-1 border border-gray-300 rounded-lg bg-white/80 p-1">
-              <div className="relative" ref={filterRef}>
+          {/* Active Filters */}
+          {hasActiveFilters && (
+            <div className="flex items-center gap-2 mt-3 flex-wrap">
+              {searchTerm && (
+                <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">
+                  "{searchTerm}"
+                  <button onClick={() => setSearchTerm("")} className="hover:text-blue-900">
+                    <X size={10} />
+                  </button>
+                </span>
+              )}
+              {makeFilter && (
+                <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">
+                  {makeFilter}
+                  <button onClick={() => setMakeFilter("")} className="hover:text-blue-900">
+                    <X size={10} />
+                  </button>
+                </span>
+              )}
+              {hasActiveFilters && (
                 <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className={`flex items-center gap-1 px-2 py-1.5 rounded-md text-sm transition-all ${hasActiveFilters
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-gray-600 hover:bg-gray-100"
-                    }`}
+                  onClick={clearFilters}
+                  className="text-blue-600 hover:text-blue-700 text-xs font-medium"
                 >
-                  <Filter size={16} />
-                  {hasActiveFilters && (
-                    <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
-                  )}
+                  Clear all
                 </button>
-
-                {showFilters && (
-                  <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-50 min-w-[140px]">
-                    <div className="p-2 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-gray-700">Make</span>
-                        {makeFilter && (
-                          <button
-                            onClick={() => setMakeFilter("")}
-                            className="text-blue-600 hover:text-blue-700 text-xs"
-                          >
-                            Clear
-                          </button>
-                        )}
-                      </div>
-                      <select
-                        value={makeFilter}
-                        onChange={(e) => setMakeFilter(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                      >
-                        <option value="">All Makes</option>
-                        {uniqueMakes.map(make => (
-                          <option key={make} value={make}>{make}</option>
-                        ))}
-                      </select>
-
-                      {hasActiveFilters && (
-                        <button
-                          onClick={clearFilters}
-                          className="w-full text-center text-xs text-blue-600 hover:text-blue-700 pt-1 border-t border-gray-200"
-                        >
-                          Clear all
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="h-4 w-px bg-gray-300"></div>
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`p-1.5 rounded transition-colors ${viewMode === "grid"
-                  ? "bg-blue-500 text-white"
-                  : "text-gray-600 hover:bg-gray-100"
-                  }`}
-              >
-                <Grid size={14} />
-              </button>
-              <button
-                onClick={() => setViewMode("list")}
-                className={`p-1.5 rounded transition-colors ${viewMode === "list"
-                  ? "bg-blue-500 text-white"
-                  : "text-gray-600 hover:bg-gray-100"
-                  }`}
-              >
-                <List size={14} />
-              </button>
+              )}
             </div>
-          </div>
+          )}
         </div>
-
-        <div className="xs:hidden">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
-            <input
-              type="text"
-              placeholder="Search vehicles..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/80"
-            />
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm("")}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              >
-                <X size={14} />
-              </button>
-            )}
-          </div>
-        </div>
-
-        {hasActiveFilters && (
-          <div className="flex items-center gap-2 mt-3 flex-wrap">
-            {searchTerm && (
-              <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">
-                "{searchTerm}"
-                <button onClick={() => setSearchTerm("")} className="hover:text-blue-900">
-                  <X size={10} />
-                </button>
-              </span>
-            )}
-            {makeFilter && (
-              <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">
-                {makeFilter}
-                <button onClick={() => setMakeFilter("")} className="hover:text-blue-900">
-                  <X size={10} />
-                </button>
-              </span>
-            )}
-            {hasActiveFilters && (
-              <button
-                onClick={clearFilters}
-                className="text-blue-600 hover:text-blue-700 text-xs font-medium"
-              >
-                Clear all
-              </button>
-            )}
-          </div>
-        )}
-      </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 py-6">
         {filteredVehicles.length > 0 ? (
-          <div className={
-            viewMode === "grid"
-              ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
-              : "flex flex-col gap-3"
-          }>
-            {filteredVehicles.map(vehicle => {
-              const [id, make, model, year, variant, imageURL, price, location, rating] = vehicle;
+          <div
+            className={
+              viewMode === "grid"
+                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-4"
+                : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+            }
+          >
 
+
+
+            {filteredVehicles.map((vehicle) => {
+              const [id, make, model, year, variant, imageURL, price, location, rating] = vehicle;
               return (
                 <div
                   key={id}
@@ -265,18 +274,19 @@ const Vehicle = () => {
                     : "bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-200/60 overflow-hidden"
                     }`}
                 >
-                  <div className={
-                    viewMode === "list"
-                      ? "w-20 h-16 flex-shrink-0 rounded-lg overflow-hidden"
-                      : "relative overflow-hidden aspect-[4/3]"
-                  }>
+                  <div
+                    className={
+                      viewMode === "list"
+                        ? "w-20 h-16 flex-shrink-0 rounded-lg overflow-hidden"
+                        : "relative overflow-hidden aspect-[4/3]"
+                    }
+                  >
                     <img
                       src={imageURL || "/api/placeholder/400/300"}
                       alt={`${make} ${model}`}
                       className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 ${viewMode === "list" ? "rounded-lg" : ""
                         }`}
                     />
-
                   </div>
 
                   <div className={viewMode === "list" ? "flex-1 min-w-0" : "p-3"}>
@@ -309,7 +319,6 @@ const Vehicle = () => {
                           </div>
                         )}
                       </div>
-
                       {viewMode === "list" && (
                         <button className="text-blue-600 hover:text-blue-700 text-xs font-medium">
                           View →
@@ -322,7 +331,6 @@ const Vehicle = () => {
             })}
           </div>
         ) : (
-
           <div className="text-center py-12 max-w-md mx-auto">
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200/50">
               <Car size={48} className="text-gray-300 mx-auto mb-4" />

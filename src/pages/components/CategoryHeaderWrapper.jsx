@@ -17,7 +17,7 @@ const CategoryHeader = ({
     const searchInputRef = useRef(null);
 
     return (
-        <div className="bg-white border-b border-gray-200 sticky top-[64px] z-40">
+        <div className="bg-white border-b border-gray-200 sticky top-[60px] md:top-[64px] z-40">
             {/* First Line: Back button, Title, and View Toggles */}
             <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2 flex-shrink-0">

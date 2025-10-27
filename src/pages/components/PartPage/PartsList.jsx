@@ -8,10 +8,14 @@ const PartsList = ({ partsList, viewMode, cart, addedToCartId, handleAddToCart, 
     if (partsList.length === 0) return <EmptyState searchTerm={searchTerm} hasActiveFilters={hasActiveFilters} clearFilters={clearFilters} />;
 
     return (
-        <div className={viewMode === "grid"
-            ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-            : "flex flex-col gap-3"
-        }>
+        <div
+            className={
+                viewMode === "grid"
+                    ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-4"
+                    : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+            }
+        >
+
             {partsList.map((part) => {
                 const [partId, , typeFromSheet] = part;
                 const cartItem = cart.find((c) => c.id === partId && c.type === typeFromSheet);
