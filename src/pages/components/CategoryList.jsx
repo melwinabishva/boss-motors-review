@@ -1,6 +1,7 @@
 import React from "react";
 import { colors } from "../../common/colors";
 
+
 const getCategoryColor = (category) => {
     let hash = 0;
     for (let i = 0; i < category.length; i++) {
@@ -61,7 +62,7 @@ const CategoryList = ({ categories, onSelect, selectedCategory, universalParts }
                                 <img
                                     src={imageUrl}
                                     alt={cat}
-                                    className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
+                                    className=" w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
                                     loading="lazy"
                                 />
                             </div>

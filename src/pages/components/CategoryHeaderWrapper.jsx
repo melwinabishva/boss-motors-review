@@ -23,7 +23,7 @@ const CategoryHeader = ({
                 <div className="flex items-center gap-2 flex-shrink-0">
                     <button
                         onClick={onBack}
-                        className="flex items-center gap-1 text-blue-600 hover:underline text-sm sm:text-base"
+                        className="flex items-center gap-1 text-red-600 hover:underline text-sm sm:text-base"
                     >
                         <ArrowLeft size={18} />
                     </button>

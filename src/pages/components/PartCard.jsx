@@ -60,13 +60,13 @@ const PartCard = ({ part, viewMode }) => {
                         <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse rounded-md" />
                     )}
 
-                    {/* Product Image */}
+                    {/* Product Image (items catagory) */}
                     <img
                         src={imageError ? "/api/placeholder/300/200" : imageURL}
                         alt={name}
                         onLoad={() => setImageLoaded(true)}
                         onError={handleImageError}
-                        className={`w-full h-full object-cover transition-transform duration-500 rounded-md
+                        className={`w-full h-full object-contain transition-transform duration-500 rounded-full
               ${imageLoaded ? "opacity-100" : "opacity-0"}
               ${viewMode === "grid" ? "group-hover:scale-105" : ""}
             `}
