@@ -6,6 +6,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { DataContext } from "./context/DataContext";
 import Header from "./components/home/Header";
 import SearchBar from "./components/home/SearchBar";
@@ -46,6 +47,14 @@ const Layout = ({ children }) => {
 
 
 function App() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <Router>
       <Layout>
@@ -69,7 +78,7 @@ function App() {
         draggable
         theme="light"
         toastStyle={{
-          fontSize: window.innerWidth < 640 ? "0.7rem" : "0.85rem", // smaller on mobile
+          fontSize: isMobile ? "0.7rem" : "0.85rem", // smaller on mobile
           padding: "6px 12px",                                       // optional smaller padding
         }}
         style={{

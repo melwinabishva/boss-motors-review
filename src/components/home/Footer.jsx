@@ -9,14 +9,19 @@ const Footer = () => {
     const { cart } = useContext(DataContext);
     const location = useLocation();
 
-    const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+    const totalItems = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
     const isActive = (path) =>
         location.pathname === path ? "text-blue-600" : "text-gray-600";
 
     return (
         <>
+        
           
             <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md md:hidden">
+                
+
+    
+    
                 <div className="flex justify-around py-2 relative">
                     <Link to="/" className={`flex flex-col items-center ${isActive("/")}`}>
                         <Home size={22} />
@@ -98,11 +103,17 @@ const Footer = () => {
                         >
                             View on Map
                         </a>
+                        <div className="block md:hidden text-center text-[11px] text-gray-400 mt-3">
+    Designed by Melwin Abishva
+  </div>
                     </motion.div>
                 </div>
 
                 <div className="text-center text-xs text-gray-500 mt-8">
-                    © {new Date().getFullYear()} Boss Motors. All rights reserved.
+                   © {new Date().getFullYear()} Boss Motors • Designed by 
+                    <span className="font-semibold text-gray-300 ml-1">
+                          Melwin Abishva
+                 </span>
                 </div>
             </footer>
         </>

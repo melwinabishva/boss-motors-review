@@ -40,7 +40,7 @@ const PartsPage = () => {
 
     const hasActiveFilters = searchTerm || selectedPriceRange.label !== "All";
     const clearFilters = () => { setSearchTerm(""); setSelectedPriceRange(priceRanges[0]); setShowFilters(false); };
-    const handleAddToCart = (item) => { addToCart(item); setAddedToCartId(item.id); setTimeout(() => setAddedToCartId(null), 1500); };
+    const handleAddToCart = (item) => { addToCart({...item,vehicleName: vehicle ? `${vehicle[1]} ${vehicle[2]} (${vehicle[4]})` : "Unknown Vechicle" , }); setAddedToCartId(item.id); setTimeout(() => setAddedToCartId(null), 1500); };
 
     if (loading) return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
 

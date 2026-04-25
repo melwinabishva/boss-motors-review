@@ -8,7 +8,7 @@ const Header = () => {
     const { cart } = useContext(DataContext);
 
     // Calculate total cart items
-    const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+    const totalItems = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
 
     return (
 

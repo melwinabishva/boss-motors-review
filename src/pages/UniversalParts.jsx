@@ -46,8 +46,19 @@ const CategoryView = () => {
     }, [selectedCategory, selectedBrand, searchTerm, universalParts]);
 
     const handleAddToCart = (item) => {
-        addToCart(item);
-        setAddedToCartId(item.id);
+        addToCart({
+        id: part[0],
+
+    name: part[3],   // 🔥 REAL product name
+    type: part[2],   // category
+    brand: part[1],  // 🔥 brand
+    desc: part[4],
+
+    price: Number(part[5]),
+    image: part[6],
+        isUniversal: true   // 🔥 VERY IMPORTANT
+    });
+        setAddedToCartId(item[0]);
         setTimeout(() => setAddedToCartId(null), 1500);
     };
 

@@ -16,7 +16,7 @@ const Cart = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const total = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
-    const itemCount = cart.reduce((acc, item) => acc + item.qty, 0);
+    const itemCount = cart.reduce((acc, item) => acc + (item.qty || 0), 0);
 
     if (cart.length === 0) {
         return (
@@ -50,10 +50,45 @@ const Cart = () => {
         message += `📧 Email: ${email}\n`;
         message += `📍 Address: ${address}\n\n`;
 
-        message += `*Order Items:*\n`;
+       /* message += `*Ordered Items:*\n`;
         cartItems.forEach((item, idx) => {
-            message += `\n${idx + 1}. *${item.name}* (${item.type})\n`;
-            message += `   💰 Price: ₹${item.price} x ${item.qty} = ₹${item.price * item.qty}\n`;
+            message += `\n${idx + 1}. *${item.name}* \n`;
+            /*message += `   🚗 ${item.make} ${item.model} (${item.variant})\n`;
+            message += `   🚗 Vehicle ID: ${item.vehicleName || "Not specified"}\n`;
+            message += `   📝 ${item.desc} (${item.type}) \n `;
+            message += `   💰 Price: ₹${item.price} x ${item.qty} = ₹${item.price * item.qty}\n`; */
+            message += `*Ordered Items:*\n`;
+
+cartItems.forEach((item, idx) => {
+   /* message += `\n${idx + 1}. *${item.name}*\n`;*/
+ const title = item.isUniversal 
+        ? item.brand   // universal → product name here
+        : item.name;   // vehicle → product name
+
+    message += `\n${idx + 1}. *${title}*\n`;
+
+    // 🔥 Vehicle parts
+    if (item.vehicleName) {
+        message += `   🚗 ${item.vehicleName}\n`;
+        message += `   📝 ${item.desc} (${item.type}) \n `;
+    }
+
+    // 🔥 Universal parts
+    if (item.isUniversal) {
+       if (item.type) {
+        message += `   📂 Category: ${item.type}\n`;
+    }
+    if (item.brand) {
+        message += `   🏷️ Brand: ${item.name}\n`;
+    }
+    if (item.desc) {
+        message += `   📝 ${item.desc}\n`;
+    }
+    }
+
+    // 💰 Price
+    message += `   💰 Price: ₹${item.price} x ${item.qty} = ₹${item.price * item.qty}\n`;
+
         });
 
         const total = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);

@@ -11,13 +11,18 @@ const PartDetailModal = ({ part, isOpen, onClose }) => {
     const cartItem = cart.find(c => c.id === part[0] && c.type === type);
 
     const handleAddToCart = () => {
+        console.log("MODSL DATA 👉", part);
         addToCart({
             id: part[0],
-            type,
-            name: part[1],
-            price: Number(part[5]),
-            image: part[6],
-            desc: part[4],
+
+    name: part[3],   // 🔥 REAL product name
+    type: part[2],   // category
+    brand: part[1],  // 🔥 brand
+    desc: part[4],
+
+    price: Number(part[5]),
+    image: part[6],
+        isUniversal: true   // 🔥 MUST
         });
     };
 
@@ -59,7 +64,7 @@ const PartDetailModal = ({ part, isOpen, onClose }) => {
                         <img
                             src={part[6] || "/api/placeholder/300/300"}
                             alt={part[1]}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain bg-white p-2 transition-transform duration-500"
                             onError={(e) => (e.target.src = "/api/placeholder/300/300")}
                         />
                     </div>

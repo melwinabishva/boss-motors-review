@@ -11,14 +11,27 @@ const PartCard = ({ part, viewMode }) => {
     const [imageError, setImageError] = useState(false);
     const [isWishlisted, setIsWishlisted] = useState(false);
 
-    const [partId, , typeFromSheet, name, desc, price, imageURL] = part;
+    const [partId, name, typeFromSheet, productName, desc, price, imageURL] = part;
     const cartItem = cart.find(c => c.id === partId && c.type === typeFromSheet);
     const isJustAdded = justAddedId === partId;
 
     const handleAddToCart = (e) => {
         e?.stopPropagation();
-        addToCart({ id: partId, type: typeFromSheet, name, price: Number(price), image: imageURL, desc });
-        setJustAddedId(partId);
+        console.log("PART DATA 👉", part);
+        addToCart({
+        id: part[0],
+
+    name: part[3],   // 🔥 REAL product name
+    type: part[2],   // category
+    brand: part[1],  // 🔥 brand
+    desc: part[4],
+
+    price: Number(part[5]),
+    image: part[6],
+        isUniversal: true      // 🔥 MUST
+    });
+
+        setJustAddedId(part[0]);
         setTimeout(() => setJustAddedId(null), 1200);
     };
 
@@ -66,7 +79,7 @@ const PartCard = ({ part, viewMode }) => {
                         alt={name}
                         onLoad={() => setImageLoaded(true)}
                         onError={handleImageError}
-                        className={`w-full h-full object-contain transition-transform duration-500 rounded-full
+                        className={`w-full h-full object-contain bg-white p-2 transition-transform duration-500
               ${imageLoaded ? "opacity-100" : "opacity-0"}
               ${viewMode === "grid" ? "group-hover:scale-105" : ""}
             `}
@@ -111,6 +124,7 @@ const PartCard = ({ part, viewMode }) => {
                             </button>
                         )}
                     </div>
+                    <div><h2 className="text-m text-gray-500 font-medium">{productName}</h2></div>
 
                     {/* Description */}
                     <p className="text-gray-600 text-xs sm:text-sm leading-relaxed line-clamp-2 mb-2 sm:mb-3">

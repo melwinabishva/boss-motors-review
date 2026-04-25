@@ -2,6 +2,7 @@ import React, { useRef, useContext, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ShoppingCart, Plus, Minus, Sparkles, Clock } from "lucide-react";
 import { DataContext } from "../../context/DataContext";
 import PartModal from "../../pages/model/ProductModelVehicle";
+import Vehicle from "../../pages/Vechile";
 
 const NewArrival = () => {
     const scrollRef = useRef(null);
@@ -157,6 +158,7 @@ const NewArrival = () => {
                                                         price: Number(price),
                                                         image: imageURL,
                                                         desc,
+                                                        Vehicle: vehicleId, 
                                                     });
                                                 }}
                                                 className="absolute top-2 md:top-4 right-2 md:right-4 bg-white/90 backdrop-blur-sm 
