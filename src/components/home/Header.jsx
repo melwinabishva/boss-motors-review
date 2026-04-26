@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ShoppingCart, LayoutGrid, Home, Phone, Package } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/BM_logo_header.jpg";
+<img src="/BM_logo_header.jpg" />
 import { DataContext } from "../../context/DataContext";
 
 const Header = () => {
