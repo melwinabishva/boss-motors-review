@@ -138,7 +138,7 @@ const PartCard = ({ part, viewMode }) => {
                     >
                         <div>
                             <p className="font-bold text-blue-600 text-sm sm:text-lg">
-                                ₹{Number(price).toLocaleString()}
+                                ₹{Number(price || 0).toLocaleString()}
                             </p>
                             {Number(price) > 10000 && (
                                 <p className="text-[10px] sm:text-xs text-gray-500">EMI available</p>

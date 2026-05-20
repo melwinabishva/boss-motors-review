@@ -11,34 +11,35 @@ const Footer = () => {
 
     const totalItems = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
     const isActive = (path) =>
-        location.pathname === path ? "text-blue-600" : "text-gray-600";
+        location.pathname === path  ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] scale-125"
+    : "text-gray-500";
 
     return (
         <>
         
           
-            <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md md:hidden">
+            <div className="fixed bottom-5 left-3 right-3 bg-white/10 backdrop-blur-2xl border border-white/20 shadow-2xl rounded-3xl md:hidden z-50">
                 
 
     
     
-                <div className="flex justify-around py-2 relative">
-                    <Link to="/" className={`flex flex-col items-center ${isActive("/")}`}>
+                <div className="flex justify-around items-center py-3 relative">
+                    <Link to="/" className={`flex flex-col items-center px-4 py-2 rounded-2xl transition-all duration-300 ${isActive("/")}`}>
                         <Home size={22} />
                         <span className="text-xs mt-1">Home</span>
                     </Link>
-                    <Link to="/vehicle" className={`flex flex-col items-center ${isActive("/vehicle")}`}>
+                    <Link to="/vehicle" className={`flex flex-col items-center px-4 py-2 rounded-2xl transition-all duration-300 ${isActive("/vehicle")}`}>
                         <LayoutGrid size={22} />
                         <span className="text-xs mt-1">Vehicles</span>
                     </Link>
-                    <Link to="/parts" className={`flex flex-col items-center ${isActive("/parts")}`}>
+                    <Link to="/parts" className={`flex flex-col items-center px-4 py-2 rounded-2xl transition-all duration-300 ${isActive("/parts")}`}>
                         <Package size={22} />
                         <span className="text-xs mt-1">Parts</span>
                     </Link>
 
              
                     <div className="relative">
-                        <Link to="/cart" className={`flex flex-col items-center ${isActive("/cart")}`}>
+                        <Link to="/cart" className={`flex flex-col items-center px-4 py-2 rounded-2xl transition-all duration-300 ${isActive("/cart")}`}>
                             <ShoppingCart size={22} />
                             <span className="text-xs mt-1">Cart</span>
                         </Link>
