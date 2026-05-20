@@ -24,8 +24,8 @@ const PartsHeader = ({
             <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex flex-col gap-2">
 
                 {/* Top row */}
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
                         <button
                             onClick={() => navigate(-1)}
                             className="flex items-center gap-1 text-gray-600 hover:text-gray-900 p-1 rounded-lg transition-colors"
