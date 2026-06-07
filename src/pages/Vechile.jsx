@@ -89,7 +89,7 @@ const Vehicle = () => {
                 <Car className="text-blue-600" size={18} />
               </div>
               <div className="min-w-0">
-                <h1 className="text-lg font-bold text-gray-900 truncate">Vehicles</h1>
+                <h1 className="text-lg font-bold text-gray-900 truncate">Choose Your Vehicle</h1>
                 <p className="text-xs text-gray-500 truncate">
                   {showingCount} of {totalVehicles} shown
                 </p>

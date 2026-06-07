@@ -4,16 +4,19 @@ import CategoryList from "./components/CategoryList";
 import PartCard from "./components/PartCard";
 import CategoryHeaderWrapper from "./components/CategoryHeaderWrapper";
 import { useViewMode } from "../context/ViewModeProvider";
+import { useParams } from "react-router-dom";
 
 const CategoryView = () => {
     const { universalParts, loading, cart, addToCart, updateQuantity, removeFromCart } = useContext(DataContext);
-
-    const [selectedCategory, setSelectedCategory] = useState(null);
+   const { category } = useParams();
+   // const [selectedCategory, setSelectedCategory] = useState(null);
+   const [selectedCategory, setSelectedCategory] = useState(category ? decodeURIComponent(category) : null);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedBrand, setSelectedBrand] = useState("");
     const [selectedPart, setSelectedPart] = useState(null);
     const [addedToCartId, setAddedToCartId] = useState(null);
     const { viewMode, setViewMode } = useViewMode()
+ 
 
     const categories = useMemo(
         () => [...new Set(universalParts.map((p) => p[2]))],
@@ -45,7 +48,7 @@ const CategoryView = () => {
             );
     }, [selectedCategory, selectedBrand, searchTerm, universalParts]);
 
-    const handleAddToCart = (item) => {
+    const handleAddToCart = (part) => {
         addToCart({
         id: part[0],
 
@@ -58,7 +61,7 @@ const CategoryView = () => {
     image: part[6],
         isUniversal: true   // 🔥 VERY IMPORTANT
     });
-        setAddedToCartId(item[0]);
+        setAddedToCartId(part[0]);
         setTimeout(() => setAddedToCartId(null), 1500);
     };
 

@@ -34,7 +34,7 @@ const Footer = () => {
                     </Link>
                     <Link to="/parts" className={`flex flex-col items-center px-4 py-2 rounded-2xl transition-all duration-300 ${isActive("/parts")}`}>
                         <Package size={22} />
-                        <span className="text-xs mt-1">Parts</span>
+                        <span className="text-xs mt-1">Accessories</span>
                     </Link>
 
              

@@ -5,7 +5,7 @@ const images = [
     {
         url: "https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg?_gl=1*dfg1mn*_ga*MTM1OTY5ODU2Mi4xNzUzMjA1MDY3*_ga_8JE65Q40S6*czE3NjAyMDA3ODkkbzQkZzEkdDE3NjAyMDA3OTAkajU5JGwwJGgw",
         caption: "Premium Automotive Tools",
-        subcaption: "Professional-grade equipment for exceptional results"
+        subcaption: "1000+ Genuine Parts Available"
     },
     {
         url: "https://images.pexels.com/photos/34171628/pexels-photo-34171628.jpeg?_gl=1*1b46je*_ga*MTM1OTY5ODU2Mi4xNzUzMjA1MDY3*_ga_8JE65Q40S6*czE3NjAyMDA3ODkkbzQkZzEkdDE3NjAyMDA4NTckajU1JGwwJGgw",
@@ -14,8 +14,8 @@ const images = [
     },
     {
         url: "https://images.pexels.com/photos/248539/pexels-photo-248539.jpeg?_gl=1*b9kh9l*_ga*MTM1OTY5ODU2Mi4xNzUzMjA1MDY3*_ga_8JE65Q40S6*czE3NjAyMDA3ODkkbzQkZzEkdDE3NjAyMDA4NzUkajM3JGwwJGgw",
-        caption: "Trusted by Professionals",
-        subcaption: "The choice of mechanics worldwide"
+        caption: "Fast Delivery Across India",
+        subcaption: "Order Online"
     },
 ];
 
@@ -72,7 +72,7 @@ const Carousel = () => {
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className="relative overflow-hidden">
-                <div className="relative h-[180px] md:h-[300px]">
+                <div className="relative h-[120px] md:h-[220px]">
                     {images.map((image, i) => (
                         <div
                             key={i}

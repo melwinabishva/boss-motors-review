@@ -45,7 +45,7 @@ const Header = () => {
                     </Link>
 
                     <Link to="/parts" className="hover:text-blue-600 flex items-center gap-1">
-                        <Package size={18} /> Parts
+                        <Package size={18} /> Accessories
                     </Link>
 
                   

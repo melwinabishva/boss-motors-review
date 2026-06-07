@@ -3,18 +3,20 @@ import { ChevronLeft, ChevronRight, ShoppingCart, Plus, Minus, Sparkles, Clock }
 import { DataContext } from "../../context/DataContext";
 import PartModal from "../../pages/model/ProductModelVehicle";
 import Vehicle from "../../pages/Vechile";
+import { useNavigate } from "react-router-dom";
 
-const NewArrival = () => {
+const UniversalArrival = () => {
     const scrollRef = useRef(null);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(true);
-    const { parts, loading, cart, addToCart, updateQuantity, removeFromCart } = useContext(DataContext);
-    const [selectedPart, setSelectedPart] = useState(null);
+    const { universalParts, loading, cart, addToCart, updateQuantity, removeFromCart } = useContext(DataContext);
+   // const [selectedPart, setSelectedPart] = useState(null);
+   const navigate = useNavigate();
     const [isScrolling, setIsScrolling] = useState(false);
 
-    if (loading || parts.length <= 1) return null;
+  if (loading || universalParts.length <= 1) return null;
 
-    const lastParts = parts.slice(1).slice(-20);
+const lastParts = universalParts.slice(1).slice(-20).reverse();
 
     const updateArrowVisibility = () => {
         if (scrollRef.current) {
@@ -54,7 +56,7 @@ const NewArrival = () => {
 
     return (
         <section className="py-3 md:py-6 px-3 md:px-8 relative max-w-7xl mx-auto">
-            <div className="flex flex-row justify-between items-center mb-6 md:mb-8 px-1">
+            <div className="flex flex-row justify-between items-center mb-3 md:mb-5 px-1">
                 <div className="flex items-center gap-3">
                     <div className="hidden xs:block">
                         <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-2 md:p-3 rounded-xl md:rounded-2xl shadow-lg">
@@ -64,17 +66,29 @@ const NewArrival = () => {
                     <div className="flex-1 min-w-0">
                         <div className="flex flex-col xs:flex-row xs:items-center xs:gap-3">
                             <h2 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-gray-900 to-purple-600 bg-clip-text text-transparent leading-tight">
-                                🔥 Trending Parts
+                                💡 Trending Accessories
                             </h2>
                             {/* <p className="text-gray-600 text-sm md:text-lg flex items-center gap-1 md:gap-2 mt-1 xs:mt-0">
                                 <Clock size={14} className="text-purple-500 flex-shrink-0" />
-                                <span className="truncate">Most Ordered Parts</span>
+                                <span className="truncate">Latest LEDs, Air Horns & Accessories</span>
                             </p> */}
+                            
                         </div>
+                        
                     </div>
                 </div>
-                
-                
+                <button
+                                    onClick={() => navigate("/parts")}
+                                    className="group flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 
+                                             text-white font-semibold text-xs md:text-base px-3 md:px-6 py-2 md:py-3 
+                                             rounded-xl md:rounded-2xl hover:from-blue-700 hover:to-purple-700 
+                                             transition-all duration-300 shadow-lg hover:shadow-xl 
+                                             active:scale-95 transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0 ml-2"
+                                >
+                                    <span className="hidden xs:inline">View All</span>
+                                    <span className="xs:hidden">All</span>
+                                    <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform duration-200" />
+                                </button>
             </div>
 
             <div className="relative group">
@@ -114,19 +128,20 @@ const NewArrival = () => {
                     <div
                         ref={scrollRef}
                         onScroll={handleScroll}
-                        className="flex space-x-4 md:space-x-8 overflow-x-auto scroll-smooth px-3 md:px-6 py-4 md:py-8 -mx-3 md:-mx-6
+                        className="flex space-x-4 md:space-x-8 overflow-x-auto scroll-smooth px-2 md:px-6 py-2 md:py-4 -mx-3 md:-mx-6
                          hide-scrollbar scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
                         style={{ scrollbarGutter: 'stable' }}
                     >
                         {lastParts.map((part, index) => {
-                            const [partId, vehicleId, type, name, desc, price, imageURL] = part;
+                           const [partId, name, type, brand, desc, price, imageURL] = part;
                             const cartItem = getCartItem(partId, type);
 
                             return (
                                 <div
                                     key={`${type}-${partId}`}
-                                    onClick={() => setSelectedPart(part)}
-                                    className="flex-none w-48 md:w-72 bg-white rounded-2xl md:rounded-3xl shadow-md 
+                                    //onClick={() => setSelectedPart(part)}
+                                    onClick={() =>navigate(`/parts/category/${encodeURIComponent(type)}`)}
+                                    className="flex-none w-44 md:w-64 bg-white rounded-2xl md:rounded-3xl shadow-md 
                                      hover:shadow-xl transition-all duration-400 border border-gray-100 
                                      hover:border-purple-200 group flex flex-col transform hover:-translate-y-1 md:hover:-translate-y-2 
                                      cursor-pointer overflow-hidden animate-fade-in"
@@ -139,7 +154,7 @@ const NewArrival = () => {
                                         <img
                                             src={imageURL || "/api/placeholder/300/200"}
                                             alt={name}
-                                            className="w-full h-32 md:h-44 object-cover group-hover:scale-105 md:group-hover:scale-110 transition-transform duration-600 ease-out"
+                                            className="w-full h-40 md:h-56 object-cover bg-white group-hover:scale-105 md:group-hover:scale-110 transition-transform duration-600 ease-out"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
 
@@ -149,7 +164,7 @@ const NewArrival = () => {
                                             </span>
                                         </div>
 
-                                        {!cartItem && (
+                                        {/* {!cartItem && (
                                             <button
                                                 onClick={(e) => {
                                                     e.stopPropagation();
@@ -160,7 +175,7 @@ const NewArrival = () => {
                                                         price: Number(price),
                                                         image: imageURL,
                                                         desc,
-                                                        Vehicle: vehicleId, 
+                                                        
                                                     });
                                                 }}
                                                 className="absolute top-2 md:top-4 right-2 md:right-4 bg-white/90 backdrop-blur-sm 
@@ -172,12 +187,12 @@ const NewArrival = () => {
                                                 <ShoppingCart size={14} className="md:hidden text-gray-700" />
                                                 <ShoppingCart size={18} className="hidden md:block text-gray-700" />
                                             </button>
-                                        )}
+                                        )} */}
                                     </div>
 
-                                    <div className="p-3 md:p-6 flex-1 flex flex-col">
-                                        <div className="mb-2">
-                                            <h3 className="font-bold text-gray-900 text-base md:text-base line-clamp-2 mb-2 leading-tight group-hover:text-purple-700 transition-colors">
+                                    <div className="p-2 md:p-4 flex-1 flex flex-col">
+                                        <div className="mb-1">
+                                            <h3 className="font-bold text-gray-900 text-xs md:text-base line-clamp-2 mb-2 leading-tight group-hover:text-purple-700 transition-colors">
                                                 {name}
                                             </h3>
                                             <p className="hidden">
@@ -185,11 +200,27 @@ const NewArrival = () => {
                                             </p>
                                         </div>
 
-                                        <div className="space-y-2">
+                                        <div className="space-y-1">
                                             <div className="flex items-center justify-between">
                                                 <div>
-                                                    <span className="text-xl md:text-xl font-bold text-gray-900">₹{price}</span>
+                                                    <span className="text-base md:text-2xl font-bold text-gray-900">{price ? `₹${price}` : "Call for Price"}</span>
                                                 </div>
+                                                 {/* <button
+        onClick={(e) => {
+            e.stopPropagation();
+            addToCart({
+                id: partId,
+                type,
+                name,
+                price: Number(price),
+                image: imageURL,
+                desc,
+            });
+        }}
+        className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white flex items-center justify-center"
+    >
+        <ShoppingCart size={14} />
+    </button> */}
                                                 {cartItem && (
                                                     <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium flex items-center gap-1">
                                                         <ShoppingCart size={10} className="md:hidden" />
@@ -199,6 +230,7 @@ const NewArrival = () => {
                                                     </span>
                                                 )}
                                             </div>
+                                            
 
                                             {/* {cartItem ? (
                                                 <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl md:rounded-2xl p-2 md:p-3">
@@ -247,15 +279,15 @@ const NewArrival = () => {
                                                         });
                                                     }}
                                                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 
-                                                             text-white py-2.5 md:py-4 rounded-xl md:rounded-2xl hover:from-blue-700 hover:to-purple-700 
+                                                             text-white py-1.5 md:py-2 rounded-xl md:rounded-2xl hover:from-blue-700 hover:to-purple-700 
                                                              transition-all duration-300 shadow-lg hover:shadow-xl 
                                                              active:scale-[0.98] font-medium md:font-semibold flex items-center justify-center gap-2 md:gap-3
                                                              group/btn overflow-hidden relative text-sm md:text-base"
                                                 >
-                                                    <span className="relative z-10 flex items-center gap-1 md:gap-2">
+                                                    <span className="relative z-10 flex items-center justify-center">
                                                         <ShoppingCart size={16} className="md:hidden transition-transform group-hover/btn:scale-110" />
                                                         <ShoppingCart size={20} className="hidden md:block transition-transform group-hover/btn:scale-110" />
-                                                        Add to Cart
+                                                        
                                                     </span>
                                                     <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-purple-700 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
                                                 </button>
@@ -278,19 +310,9 @@ const NewArrival = () => {
                 </div>
             </div>
 
-            <PartModal
-                part={selectedPart}
-                isOpen={!!selectedPart}
-                onClose={() => setSelectedPart(null)}
-                cartItem={cart.find(
-                    (c) => c.id === selectedPart?.[0] && c.type === selectedPart?.[2]
-                )}
-                addToCart={addToCart}
-                updateQuantity={updateQuantity}
-                removeFromCart={removeFromCart}
-            />
+            
         </section>
     );
 };
 
-export default NewArrival;
+export default UniversalArrival;

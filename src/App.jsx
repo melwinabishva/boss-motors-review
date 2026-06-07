@@ -20,6 +20,7 @@ import Contact from "./pages/Contact";
 import UniversalParts from "./pages/UniversalParts";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // ✅ required import
+
 import NotFound from "./pages/NotFound";
 
 const Layout = ({ children }) => {
@@ -63,6 +64,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/vehicle" element={<Category />} />
           <Route path="/parts" element={<UniversalParts />} />
+          <Route path="/parts/category/:category" element={<UniversalParts />} />
           <Route path="/parts/:vehicleId/:type" element={<PartsPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
